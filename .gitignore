@@ -1,0 +1,46 @@
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# Intellij
+*.iml
+.idea/
+
+# Built application files
+*.apk
+*.ap_
+
+# Generated files
+bin/
+gen/
+out/
+
+# Gradle files
+.gradle/
+build/
+
+# Local configuration files
+local.properties
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+
+.DS_Store
+/build
+/captures
+.externalNativeBuild

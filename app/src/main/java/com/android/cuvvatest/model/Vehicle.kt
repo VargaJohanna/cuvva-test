@@ -1,8 +1,17 @@
 package com.android.cuvvatest.model
 
-import com.android.cuvvatest.network.entities.PolicyResponseEntity
+import java.util.*
 
 data class Vehicle(
-    val regPlate: String,
-    val totalPolicies: Int
+    val vrm: String,
+//    val prettyVrm: String,
+//    val make: String,
+//    val model: String,
+//    val color: String,
+//    val updated: Date,
+    val policyIds: List<String>
+//    ,
+//    val createdPolicyList: List<CreatedPolicy>,
+//    val paidPolicyList: List<PaidPolicy>,
+//    val cancelledPolicyList: List<CancelledPolicy>
 )

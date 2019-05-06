@@ -11,7 +11,7 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        homeViewModel.fetchPolicies()
+        homeViewModel.getVehicleTestData()
         setContentView(R.layout.activity_home)
     }
 }

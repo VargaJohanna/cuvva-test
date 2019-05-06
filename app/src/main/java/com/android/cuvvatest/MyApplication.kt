@@ -2,6 +2,7 @@ package com.android.cuvvatest
 
 import android.app.Application
 import com.android.cuvvatest.di.networkModule
+import com.android.cuvvatest.di.repositoryModule
 import com.android.cuvvatest.di.schedulerModule
 import com.android.cuvvatest.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
@@ -16,7 +17,7 @@ class MyApplication: Application() {
         super.onCreate()
         koinApplication = startKoin {
             androidContext(this@MyApplication)
-            modules(networkModule, schedulerModule, viewModelModule)
+            modules(networkModule, schedulerModule, viewModelModule, repositoryModule)
         }
     }
 }

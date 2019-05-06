@@ -1,6 +1,6 @@
 package com.android.cuvvatest.network
 
-import com.android.cuvvatest.network.entities.PolicyResponseList
+import com.android.cuvvatest.network.entries.PolicyResponseList
 import io.reactivex.Single
 import retrofit2.Response
 import retrofit2.http.GET

@@ -1,6 +1,7 @@
 package com.android.cuvvatest.network
 
-import com.android.cuvvatest.network.entities.*
+import com.android.cuvvatest.Constants
+import com.android.cuvvatest.network.entries.*
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
@@ -15,20 +16,17 @@ class PolicyDeserializer : JsonDeserializer<PolicyResponseList> {
     ): PolicyResponseList {
         return if (json != null) {
             val jsonArray = json.asJsonArray
-            val listToReturn = mutableListOf<PolicyResponseEntity>()
+            val listToReturn = mutableListOf<PolicyResponseEntry>()
+
             for (jsonElement in jsonArray) {
                 val jsonObject = jsonElement.asJsonObject
-                val type = jsonObject.get("type").asString
-                val timestamp = jsonObject.get("timestamp").asString
-                val uniqueKey = jsonObject.get("unique_key").asString
-                val payload = jsonObject.get("payload").asJsonObject
-                val payloadEntity = getPayloadEntity(type, jsonObject, payload)
+                val payloadEntity = getPayloadEntity(jsonObject)
 
                 listToReturn.add(
-                    PolicyResponseEntity(
-                        type = type,
-                        timestamp = timestamp,
-                        uniqueKey = uniqueKey,
+                    PolicyResponseEntry(
+                        type = jsonObject.get("type").asString,
+                        timestamp = jsonObject.get("timestamp").asString,
+                        uniqueKey = jsonObject.get("unique_key").asString,
                         payload = payloadEntity
                     )
                 )
@@ -39,11 +37,13 @@ class PolicyDeserializer : JsonDeserializer<PolicyResponseList> {
         }
     }
 
-    private fun getPayloadEntity(type: String, jsonObject: JsonObject, payload: JsonObject): PayloadEntity {
+    private fun getPayloadEntity(jsonObject: JsonObject): PayloadEntry {
+        val type = jsonObject.get("type").asString
+        val payload = jsonObject.get("payload").asJsonObject
         return when (type) {
-            TypeValues.CREATED -> {
+            Constants.TypeValues.CREATED -> {
                 val vehicle = payload.get("vehicle").asJsonObject
-                PayloadEntity.PayloadCreated(
+                PayloadEntry.PayloadCreated(
                     type = type,
                     timestamp = jsonObject.get("timestamp").asString,
                     uniqueKey = jsonObject.get("unique_key").asString,
@@ -52,7 +52,7 @@ class PolicyDeserializer : JsonDeserializer<PolicyResponseList> {
                     originalPolicyId = payload.get("original_policy_id").asString,
                     startDate = payload.get("start_date").asString,
                     endDate = payload.get("end_date").asString,
-                    vehicle = VehicleEntity(
+                    vehicle = VehicleEntry(
                         vrm = vehicle.get("vrm").asString,
                         prettyVrm = vehicle.get("prettyVrm").asString,
                         make = vehicle.get("make").asString,
@@ -61,14 +61,14 @@ class PolicyDeserializer : JsonDeserializer<PolicyResponseList> {
                     )
                 )
             }
-            TypeValues.PAID -> {
+            Constants.TypeValues.PAID -> {
                 val pricing = payload.get("pricing").asJsonObject
-                PayloadEntity.PayloadPaid(
+                PayloadEntry.PayloadPaid(
                     type = type,
                     timestamp = jsonObject.get("timestamp").asString,
                     uniqueKey = jsonObject.get("unique_key").asString,
                     policyId = payload.get("policy_id").asString,
-                    pricing = PricingEntity(
+                    pricing = PricingEntry(
                         underwriterPremium = pricing.get("underwriter_premium").asFloat,
                         commission = pricing.get("commission").asFloat,
                         totalPremium = pricing.get("total_premium").asFloat,
@@ -81,20 +81,14 @@ class PolicyDeserializer : JsonDeserializer<PolicyResponseList> {
                     )
                 )
             }
-            TypeValues.CANCELLED -> PayloadEntity.PayloadCancelled(
+            Constants.TypeValues.CANCELLED -> PayloadEntry.PayloadCancelled(
                 type = type,
                 timestamp = jsonObject.get("timestamp").asString,
                 uniqueKey = jsonObject.get("unique_key").asString,
                 policyId = payload.get("policy_id").asString,
                 cancelType = payload.get("type").asString
             )
-            else -> PayloadEntity.UnknownPayload
+            else -> PayloadEntry.UnknownPayload
         }
-    }
-
-    object TypeValues {
-        const val CREATED = "policy_created"
-        const val PAID = "policy_financial_transaction"
-        const val CANCELLED = "policy_cancelled"
     }
 }

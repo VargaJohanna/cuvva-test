@@ -1,8 +1,8 @@
 package com.android.cuvvatest.repositories.policies.created
 
-import androidx.room.*
-import com.android.cuvvatest.repositories.policies.EventEntity
-import java.util.*
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "createdPolicyTable")
 data class CreatedPolicyEntity(
@@ -12,7 +12,8 @@ data class CreatedPolicyEntity(
     @ColumnInfo(name = "timestamp") val timestamp: String,
     @ColumnInfo(name = "original_policy_id") val originalPolicyId: String,
     @ColumnInfo(name = "user_id") val userId: String,
-    @ColumnInfo(name = "start_date") val startDate: String,
-    @ColumnInfo(name = "end_date") val endDate: String,
-    @ColumnInfo(name = "updated") val updated: Long
+    @ColumnInfo(name = "start_date") val startDate: Long,
+    @ColumnInfo(name = "end_date") val endDate: Long,
+    @ColumnInfo(name = "updated") val updated: Long,
+    @ColumnInfo(name = "vrm") val vrm: String
 )

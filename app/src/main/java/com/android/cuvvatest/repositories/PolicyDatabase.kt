@@ -4,8 +4,6 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.android.cuvvatest.repositories.policies.EventEntity
-import com.android.cuvvatest.repositories.policies.EventDao
 import com.android.cuvvatest.repositories.policies.cancelled.CancelledPolicyDao
 import com.android.cuvvatest.repositories.policies.cancelled.CancelledPolicyEntity
 import com.android.cuvvatest.repositories.policies.created.CreatedPolicyDao
@@ -20,15 +18,13 @@ import com.android.cuvvatest.repositories.vehicle.VehicleEntity
         VehicleEntity::class,
         CreatedPolicyEntity::class,
         PaidPolicyEntity::class,
-        CancelledPolicyEntity::class,
-        EventEntity::class], version = 1, exportSchema = true
+        CancelledPolicyEntity::class], version = 1, exportSchema = true
 )
 abstract class PolicyDatabase : RoomDatabase() {
     abstract fun vehicleDao(): VehicleDao
     abstract fun createdPolicyDao(): CreatedPolicyDao
     abstract fun cancelledPolicyDao(): CancelledPolicyDao
     abstract fun paidPolicyDao(): PaidPolicyDao
-    abstract fun eventDao(): EventDao
 
     companion object {
         fun getInstance(context: Context): PolicyDatabase {

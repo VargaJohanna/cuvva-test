@@ -1,12 +1,11 @@
 package com.android.cuvvatest.repositories
 
+//import com.android.cuvvatest.repositories.policies.EventEntity
 import com.android.cuvvatest.Constants
 import com.android.cuvvatest.network.PolicyService
 import com.android.cuvvatest.network.entries.PayloadEntry
 import com.android.cuvvatest.network.entries.PolicyResponseEntry
 import com.android.cuvvatest.network.entries.PolicyResponseList
-import com.android.cuvvatest.repositories.policies.EventDao
-import com.android.cuvvatest.repositories.policies.EventEntity
 import com.android.cuvvatest.repositories.policies.cancelled.CancelledPolicyDao
 import com.android.cuvvatest.repositories.policies.cancelled.CancelledPolicyEntity
 import com.android.cuvvatest.repositories.policies.created.CreatedPolicyDao
@@ -16,6 +15,9 @@ import com.android.cuvvatest.repositories.policies.paid.PaidPolicyEntity
 import com.android.cuvvatest.repositories.vehicle.VehicleDao
 import com.android.cuvvatest.repositories.vehicle.VehicleEntity
 import io.reactivex.Completable
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.ZoneOffset
+import org.threeten.bp.format.DateTimeFormatter
 import retrofit2.Response
 
 class NetworkRepositoryImpl(
@@ -23,10 +25,9 @@ class NetworkRepositoryImpl(
     private val vehicleDao: VehicleDao,
     private val cancelledPolicyDao: CancelledPolicyDao,
     private val createdPolicyDao: CreatedPolicyDao,
-    private val paidPolicyDao: PaidPolicyDao,
-    private val eventDao: EventDao
+    private val paidPolicyDao: PaidPolicyDao
 ) : NetworkRepository {
-
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     override fun fetchData(): Completable {
         return service.getPolicies()
             .doOnSuccess { processData(it) }
@@ -35,7 +36,7 @@ class NetworkRepositoryImpl(
 
     private fun processData(response: Response<PolicyResponseList>) {
         val vehicleEntityMap = mutableMapOf<String, VehicleEntity>()
-        val eventEntityMap = mutableMapOf<String, EventEntity>()
+//        val eventEntityMap = mutableMapOf<String, EventEntity>()
         val createdPolicyList = mutableListOf<CreatedPolicyEntity>()
         val paidPolicyList = mutableListOf<PaidPolicyEntity>()
         val cancelledPolicyList = mutableListOf<CancelledPolicyEntity>()
@@ -45,8 +46,8 @@ class NetworkRepositoryImpl(
                 when {
                     it.type == Constants.TypeValues.CREATED -> {
                         vehicleEntityMap[mapVehicle(it).vrm] = mapVehicle(it)
-                        eventEntityMap[mapEventEntity(it).policyId] = mapEventEntity(it)
                         createdPolicyList.add(mapCreatedPolicy(it))
+//                        eventEntityMap[mapEventEntity(it).policyId] = mapEventEntity(it)
                     }
                     it.type == Constants.TypeValues.CANCELLED -> cancelledPolicyList.add(mapCancelledPolicy(it))
                     it.type == Constants.TypeValues.PAID -> {
@@ -57,7 +58,7 @@ class NetworkRepositoryImpl(
         }
         saveDataToDatabase(
             vehicleEntityMap,
-            eventEntityMap,
+//            eventEntityMap,
             createdPolicyList,
             paidPolicyList,
             cancelledPolicyList
@@ -66,13 +67,13 @@ class NetworkRepositoryImpl(
 
     private fun saveDataToDatabase(
         vehicleEntityMap: Map<String, VehicleEntity>,
-        eventEntityMap: Map<String, EventEntity>,
+//        eventEntityMap: Map<String, EventEntity>,
         createdPolicyList: List<CreatedPolicyEntity>,
         paidPolicyList: List<PaidPolicyEntity>,
         cancelledPolicyList: List<CancelledPolicyEntity>
     ) {
         vehicleDao.deleteAndInsert(vehicleEntityMap.values.toList())
-        eventDao.deleteAndInsert(eventEntityMap.values.toList())
+//        eventDao.deleteAndInsert(eventEntityMap.values.toList())
         createdPolicyDao.deleteAndInsert(createdPolicyList)
         paidPolicyDao.deleteAndInsert(paidPolicyList)
         cancelledPolicyDao.deleteAndInsert(cancelledPolicyList)
@@ -98,19 +99,20 @@ class NetworkRepositoryImpl(
             timestamp = responseEntry.timestamp,
             uniqueKey = responseEntry.uniqueKey,
             userId = responseEntry.payload.userId,
-            startDate = responseEntry.payload.startDate,
-            endDate = responseEntry.payload.endDate,
-            updated = System.currentTimeMillis()
+            startDate = LocalDateTime.parse(responseEntry.payload.startDate, formatter).toEpochSecond(ZoneOffset.UTC),
+            endDate = LocalDateTime.parse(responseEntry.payload.endDate, formatter).toEpochSecond(ZoneOffset.UTC),
+            updated = System.currentTimeMillis(),
+            vrm = responseEntry.payload.vehicle.vrm
         )
     }
 
-    private fun mapEventEntity(responseEntry: PolicyResponseEntry): EventEntity {
-        responseEntry.payload as PayloadEntry.PayloadCreated
-        return EventEntity(
-            policyId = responseEntry.payload.policyId,
-            vehicleVrm = responseEntry.payload.vehicle.vrm
-        )
-    }
+//    private fun mapEventEntity(responseEntry: PolicyResponseEntry): EventEntity {
+//        responseEntry.payload as PayloadEntry.PayloadCreated
+//        return EventEntity(
+//            policyId = responseEntry.payload.policyId,
+//            vehicleVrm = responseEntry.payload.vehicle.vrm
+//        )
+//    }
 
     private fun mapCancelledPolicy(responseEntry: PolicyResponseEntry): CancelledPolicyEntity {
         responseEntry.payload as PayloadEntry.PayloadCancelled

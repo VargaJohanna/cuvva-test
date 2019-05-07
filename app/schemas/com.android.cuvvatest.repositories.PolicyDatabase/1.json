@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "272ad942786840408c965ef13bce6096",
+    "identityHash": "6d971a1770a3169ae63e01ebd5045643",
     "entities": [
       {
         "tableName": "vehicleTable",
@@ -56,7 +56,7 @@
       },
       {
         "tableName": "createdPolicyTable",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`unique_key` TEXT NOT NULL, `policy_id` TEXT NOT NULL, `timestamp` TEXT NOT NULL, `original_policy_id` TEXT NOT NULL, `user_id` TEXT NOT NULL, `start_date` TEXT NOT NULL, `end_date` TEXT NOT NULL, `updated` INTEGER NOT NULL, PRIMARY KEY(`unique_key`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`unique_key` TEXT NOT NULL, `policy_id` TEXT NOT NULL, `timestamp` TEXT NOT NULL, `original_policy_id` TEXT NOT NULL, `user_id` TEXT NOT NULL, `start_date` INTEGER NOT NULL, `end_date` INTEGER NOT NULL, `updated` INTEGER NOT NULL, `vrm` TEXT NOT NULL, PRIMARY KEY(`unique_key`))",
         "fields": [
           {
             "fieldPath": "uniqueKey",
@@ -91,19 +91,25 @@
           {
             "fieldPath": "startDate",
             "columnName": "start_date",
-            "affinity": "TEXT",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
             "fieldPath": "endDate",
             "columnName": "end_date",
-            "affinity": "TEXT",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
             "fieldPath": "updated",
             "columnName": "updated",
             "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "vrm",
+            "columnName": "vrm",
+            "affinity": "TEXT",
             "notNull": true
           }
         ],
@@ -251,37 +257,11 @@
         },
         "indices": [],
         "foreignKeys": []
-      },
-      {
-        "tableName": "eventTable",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`policy_id` TEXT NOT NULL, `vehicle_vrm` TEXT NOT NULL, PRIMARY KEY(`policy_id`))",
-        "fields": [
-          {
-            "fieldPath": "policyId",
-            "columnName": "policy_id",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "vehicleVrm",
-            "columnName": "vehicle_vrm",
-            "affinity": "TEXT",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "policy_id"
-          ],
-          "autoGenerate": false
-        },
-        "indices": [],
-        "foreignKeys": []
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"272ad942786840408c965ef13bce6096\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"6d971a1770a3169ae63e01ebd5045643\")"
     ]
   }
 }

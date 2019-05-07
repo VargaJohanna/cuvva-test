@@ -1,17 +1,12 @@
 package com.android.cuvvatest.model
 
-import java.util.*
+import org.threeten.bp.LocalDateTime
 
 data class Vehicle(
     val vrm: String,
-//    val prettyVrm: String,
-//    val make: String,
-//    val model: String,
-//    val color: String,
-//    val updated: Date,
-    val policyIds: List<String>
-//    ,
-//    val createdPolicyList: List<CreatedPolicy>,
-//    val paidPolicyList: List<PaidPolicy>,
-//    val cancelledPolicyList: List<CancelledPolicy>
+    val prettyVrm: String,
+    val make: String,
+    val model: String,
+    val color: String,
+    val updated: LocalDateTime
 )

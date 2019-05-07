@@ -1,7 +1,8 @@
 package com.android.cuvvatest.repositories.vehicle
 
-import io.reactivex.Single
+import com.android.cuvvatest.model.Vehicle
+import io.reactivex.Observable
 
 interface VehicleRepository {
-    fun getAllVehicles(): Single<List<VehicleAndAllPolicyIds>>
+    fun getVehicleByVrm(vrm: String): Observable<Vehicle>
 }

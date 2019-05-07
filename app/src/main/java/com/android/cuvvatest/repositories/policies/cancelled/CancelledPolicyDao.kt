@@ -1,7 +1,10 @@
 package com.android.cuvvatest.repositories.policies.cancelled
 
-import androidx.room.*
-import io.reactivex.Single
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
+import androidx.room.Transaction
+import io.reactivex.Observable
 
 @Dao
 interface CancelledPolicyDao {
@@ -9,7 +12,7 @@ interface CancelledPolicyDao {
     fun insertCancelledPolicy(cancelledPolicyEntity: CancelledPolicyEntity)
 
     @Query("SELECT * FROM cancelledPolicyTable WHERE policy_id = :policyId")
-    fun getPoliciesById(policyId: String): Single<List<CancelledPolicyEntity>>
+    fun getPoliciesById(policyId: String): Observable<List<CancelledPolicyEntity>>
 
     @Query("DELETE FROM cancelledPolicyTable")
     fun deleteAll()

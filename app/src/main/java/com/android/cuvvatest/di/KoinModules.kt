@@ -7,6 +7,10 @@ import com.android.cuvvatest.network.entries.PolicyResponseList
 import com.android.cuvvatest.repositories.NetworkRepository
 import com.android.cuvvatest.repositories.NetworkRepositoryImpl
 import com.android.cuvvatest.repositories.PolicyDatabase
+import com.android.cuvvatest.repositories.home.HomeDataRepository
+import com.android.cuvvatest.repositories.home.HomeDataRepositoryImpl
+import com.android.cuvvatest.repositories.policies.created.CreatedPolicyRepository
+import com.android.cuvvatest.repositories.policies.created.CreatedPolicyRepositoryImpl
 import com.android.cuvvatest.repositories.vehicle.VehicleRepository
 import com.android.cuvvatest.repositories.vehicle.VehicleRepositoryImpl
 import com.android.cuvvatest.rx.RxSchedulers
@@ -55,7 +59,7 @@ val schedulerModule = module {
 }
 
 val viewModelModule = module {
-    viewModel { HomeViewModel(get(), get(), get(), get()) }
+    viewModel { HomeViewModel(get(), get(), get()) }
 }
 
 val repositoryModule = module {
@@ -64,8 +68,8 @@ val repositoryModule = module {
     single { get<PolicyDatabase>().createdPolicyDao() }
     single { get<PolicyDatabase>().cancelledPolicyDao() }
     single { get<PolicyDatabase>().paidPolicyDao() }
-    single { get<PolicyDatabase>().eventDao() }
     single<VehicleRepository> { VehicleRepositoryImpl(get()) }
-    single<NetworkRepository> { NetworkRepositoryImpl(get(), get(), get(), get(), get(), get()) }
-
+    single<NetworkRepository> { NetworkRepositoryImpl(get(), get(), get(), get(), get()) }
+    single<CreatedPolicyRepository> { CreatedPolicyRepositoryImpl(get()) }
+    single<HomeDataRepository> { HomeDataRepositoryImpl(get()) }
 }

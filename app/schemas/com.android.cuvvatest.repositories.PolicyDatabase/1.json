@@ -1,0 +1,287 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "272ad942786840408c965ef13bce6096",
+    "entities": [
+      {
+        "tableName": "vehicleTable",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`vrm` TEXT NOT NULL, `pretty_vrm` TEXT NOT NULL, `make` TEXT NOT NULL, `model` TEXT NOT NULL, `color` TEXT NOT NULL, `updated` INTEGER NOT NULL, PRIMARY KEY(`vrm`))",
+        "fields": [
+          {
+            "fieldPath": "vrm",
+            "columnName": "vrm",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "prettyVrm",
+            "columnName": "pretty_vrm",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "make",
+            "columnName": "make",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "model",
+            "columnName": "model",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "color",
+            "columnName": "color",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updated",
+            "columnName": "updated",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "vrm"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "createdPolicyTable",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`unique_key` TEXT NOT NULL, `policy_id` TEXT NOT NULL, `timestamp` TEXT NOT NULL, `original_policy_id` TEXT NOT NULL, `user_id` TEXT NOT NULL, `start_date` TEXT NOT NULL, `end_date` TEXT NOT NULL, `updated` INTEGER NOT NULL, PRIMARY KEY(`unique_key`))",
+        "fields": [
+          {
+            "fieldPath": "uniqueKey",
+            "columnName": "unique_key",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "policyId",
+            "columnName": "policy_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timestamp",
+            "columnName": "timestamp",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "originalPolicyId",
+            "columnName": "original_policy_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "user_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startDate",
+            "columnName": "start_date",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "endDate",
+            "columnName": "end_date",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updated",
+            "columnName": "updated",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "unique_key"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "paidPolicyTable",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`unique_key` TEXT NOT NULL, `policy_id` TEXT NOT NULL, `timestamp` TEXT NOT NULL, `underwriter_premium` REAL NOT NULL, `commission` REAL NOT NULL, `total_premium` REAL NOT NULL, `ipt` REAL NOT NULL, `ipt_rate` REAL NOT NULL, `extra_fees` REAL NOT NULL, `vat` REAL NOT NULL, `deductions` REAL NOT NULL, `total_payable` REAL NOT NULL, `updated` INTEGER NOT NULL, PRIMARY KEY(`unique_key`))",
+        "fields": [
+          {
+            "fieldPath": "uniqueKey",
+            "columnName": "unique_key",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "policyId",
+            "columnName": "policy_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timestamp",
+            "columnName": "timestamp",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "underwriterPremium",
+            "columnName": "underwriter_premium",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "commission",
+            "columnName": "commission",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "totalPremium",
+            "columnName": "total_premium",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ipt",
+            "columnName": "ipt",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "iptRate",
+            "columnName": "ipt_rate",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "extraFees",
+            "columnName": "extra_fees",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "vat",
+            "columnName": "vat",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deductions",
+            "columnName": "deductions",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "totalPayable",
+            "columnName": "total_payable",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updated",
+            "columnName": "updated",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "unique_key"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "cancelledPolicyTable",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`unique_key` TEXT NOT NULL, `policy_id` TEXT NOT NULL, `timestamp` TEXT NOT NULL, `cancel_type` TEXT NOT NULL, `updated` INTEGER NOT NULL, PRIMARY KEY(`unique_key`))",
+        "fields": [
+          {
+            "fieldPath": "uniqueKey",
+            "columnName": "unique_key",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "policyId",
+            "columnName": "policy_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timestamp",
+            "columnName": "timestamp",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cancelType",
+            "columnName": "cancel_type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updated",
+            "columnName": "updated",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "unique_key"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "eventTable",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`policy_id` TEXT NOT NULL, `vehicle_vrm` TEXT NOT NULL, PRIMARY KEY(`policy_id`))",
+        "fields": [
+          {
+            "fieldPath": "policyId",
+            "columnName": "policy_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "vehicleVrm",
+            "columnName": "vehicle_vrm",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "policy_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"272ad942786840408c965ef13bce6096\")"
+    ]
+  }
+}

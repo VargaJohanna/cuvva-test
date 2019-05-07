@@ -1,8 +1,6 @@
 package com.android.cuvvatest.repositories.vehicle
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import io.reactivex.Single
 
 @Dao
@@ -12,4 +10,13 @@ interface VehicleDao {
 
     @Query("SELECT vrm FROM vehicleTable")
     fun loadVehicleAndEvents(): Single<List<VehicleAndAllPolicyIds>>
+
+    @Query("DELETE FROM vehicleTable")
+    fun deleteAll()
+
+    @Transaction
+    fun deleteAndInsert(vehicleList: List<VehicleEntity>) {
+        deleteAll()
+        vehicleList.forEach { insertVehicle(it) }
+    }
 }

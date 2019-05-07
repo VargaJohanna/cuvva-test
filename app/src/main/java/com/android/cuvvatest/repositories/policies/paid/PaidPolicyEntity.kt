@@ -1,17 +1,15 @@
 package com.android.cuvvatest.repositories.policies.paid
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.Ignore
-import androidx.room.PrimaryKey
+import androidx.room.*
+import com.android.cuvvatest.repositories.policies.EventEntity
 import java.util.*
 
 @Entity(tableName = "paidPolicyTable")
 data class PaidPolicyEntity (
-    @ColumnInfo(name = "policy_id") val policyId: String,
-    @ColumnInfo(name = "timestamp") val timestamp: String,
     @PrimaryKey
     @ColumnInfo(name = "unique_key") val uniqueKey: String,
+    @ColumnInfo(name = "policy_id") val policyId: String,
+    @ColumnInfo(name = "timestamp") val timestamp: String,
     @ColumnInfo(name = "underwriter_premium") val underwriterPremium: Float,
     @ColumnInfo(name = "commission") val commission: Float,
     @ColumnInfo(name = "total_premium") val totalPremium: Float,

@@ -21,7 +21,7 @@ import com.android.cuvvatest.repositories.vehicle.VehicleEntity
         CreatedPolicyEntity::class,
         PaidPolicyEntity::class,
         CancelledPolicyEntity::class,
-        EventEntity::class], version = 1, exportSchema = false
+        EventEntity::class], version = 1, exportSchema = true
 )
 abstract class PolicyDatabase : RoomDatabase() {
     abstract fun vehicleDao(): VehicleDao

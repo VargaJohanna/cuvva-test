@@ -65,7 +65,7 @@ val repositoryModule = module {
     single { get<PolicyDatabase>().cancelledPolicyDao() }
     single { get<PolicyDatabase>().paidPolicyDao() }
     single { get<PolicyDatabase>().eventDao() }
-    single<VehicleRepository> { VehicleRepositoryImpl(get(), get(), get(), get(), get()) }
-    single<NetworkRepository> { NetworkRepositoryImpl(get()) }
+    single<VehicleRepository> { VehicleRepositoryImpl(get()) }
+    single<NetworkRepository> { NetworkRepositoryImpl(get(), get(), get(), get(), get(), get()) }
 
 }

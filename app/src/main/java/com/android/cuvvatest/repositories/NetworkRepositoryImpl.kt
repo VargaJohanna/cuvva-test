@@ -4,45 +4,78 @@ import com.android.cuvvatest.Constants
 import com.android.cuvvatest.network.PolicyService
 import com.android.cuvvatest.network.entries.PayloadEntry
 import com.android.cuvvatest.network.entries.PolicyResponseEntry
+import com.android.cuvvatest.network.entries.PolicyResponseList
+import com.android.cuvvatest.repositories.policies.EventDao
 import com.android.cuvvatest.repositories.policies.EventEntity
+import com.android.cuvvatest.repositories.policies.cancelled.CancelledPolicyDao
 import com.android.cuvvatest.repositories.policies.cancelled.CancelledPolicyEntity
+import com.android.cuvvatest.repositories.policies.created.CreatedPolicyDao
 import com.android.cuvvatest.repositories.policies.created.CreatedPolicyEntity
+import com.android.cuvvatest.repositories.policies.paid.PaidPolicyDao
 import com.android.cuvvatest.repositories.policies.paid.PaidPolicyEntity
+import com.android.cuvvatest.repositories.vehicle.VehicleDao
 import com.android.cuvvatest.repositories.vehicle.VehicleEntity
 import io.reactivex.Completable
+import retrofit2.Response
 
 class NetworkRepositoryImpl(
-    private val service: PolicyService
+    private val service: PolicyService,
+    private val vehicleDao: VehicleDao,
+    private val cancelledPolicyDao: CancelledPolicyDao,
+    private val createdPolicyDao: CreatedPolicyDao,
+    private val paidPolicyDao: PaidPolicyDao,
+    private val eventDao: EventDao
 ) : NetworkRepository {
 
-    override fun fetchVehicles(): Completable {
-        val vehicleEntityList = mutableListOf<VehicleEntity>()
-        val eventEntityList = mutableListOf<EventEntity>()
+    override fun fetchData(): Completable {
+        return service.getPolicies()
+            .doOnSuccess { processData(it) }
+            .ignoreElement()
+    }
+
+    private fun processData(response: Response<PolicyResponseList>) {
+        val vehicleEntityMap = mutableMapOf<String, VehicleEntity>()
+        val eventEntityMap = mutableMapOf<String, EventEntity>()
         val createdPolicyList = mutableListOf<CreatedPolicyEntity>()
         val paidPolicyList = mutableListOf<PaidPolicyEntity>()
         val cancelledPolicyList = mutableListOf<CancelledPolicyEntity>()
-        return service.getPolicies()
-            .map { response ->
-                if (response.isSuccessful && response.body() != null) {
-                    response.body()!!.responseList.forEach {
-                        when {
-                            it.type == Constants.TypeValues.CREATED -> {
-                                vehicleEntityList.add(mapVehicle(it))
-                                createdPolicyList.add(mapCreatedPolicy(it))
-                                eventEntityList.add(mapEventEntity(it))
-                            }
-                            it.type == Constants.TypeValues.CANCELLED -> cancelledPolicyList.add(mapCancelledPolicy(it))
-                            it.type == Constants.TypeValues.PAID -> {
-                                paidPolicyList.add(mapPaidPolicy(it))
-                            }
-                        }
+
+        if (response.isSuccessful && response.body() != null) {
+            response.body()!!.responseList.forEach {
+                when {
+                    it.type == Constants.TypeValues.CREATED -> {
+                        vehicleEntityMap[mapVehicle(it).vrm] = mapVehicle(it)
+                        eventEntityMap[mapEventEntity(it).policyId] = mapEventEntity(it)
+                        createdPolicyList.add(mapCreatedPolicy(it))
+                    }
+                    it.type == Constants.TypeValues.CANCELLED -> cancelledPolicyList.add(mapCancelledPolicy(it))
+                    it.type == Constants.TypeValues.PAID -> {
+                        paidPolicyList.add(mapPaidPolicy(it))
                     }
                 }
             }
-            .doOnSuccess {
-                //??
-            }
-            .ignoreElement()
+        }
+        saveDataToDatabase(
+            vehicleEntityMap,
+            eventEntityMap,
+            createdPolicyList,
+            paidPolicyList,
+            cancelledPolicyList
+        )
+    }
+
+    private fun saveDataToDatabase(
+        vehicleEntityMap: Map<String, VehicleEntity>,
+        eventEntityMap: Map<String, EventEntity>,
+        createdPolicyList: List<CreatedPolicyEntity>,
+        paidPolicyList: List<PaidPolicyEntity>,
+        cancelledPolicyList: List<CancelledPolicyEntity>
+    ) {
+        vehicleDao.deleteAndInsert(vehicleEntityMap.values.toList())
+        eventDao.deleteAndInsert(eventEntityMap.values.toList())
+        createdPolicyDao.deleteAndInsert(createdPolicyList)
+        paidPolicyDao.deleteAndInsert(paidPolicyList)
+        cancelledPolicyDao.deleteAndInsert(cancelledPolicyList)
     }
 
     private fun mapVehicle(responseEntry: PolicyResponseEntry): VehicleEntity {

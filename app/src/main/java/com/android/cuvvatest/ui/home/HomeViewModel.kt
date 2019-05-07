@@ -17,23 +17,8 @@ class HomeViewModel(
     private val disposables = CompositeDisposable()
 
     init {
-//        disposables +=  Single.fromCallable {
-//            vehicleRepository.insertVehicles()}
-//                .subscribeOn(rxSchedulers.io())
-//                .observeOn(rxSchedulers.main())
-//                .subscribe()
-
-        networkRepository.fetchVehicles()
+        disposables += networkRepository.fetchData()
             .subscribeOn(rxSchedulers.io())
-            .subscribe()
-    }
-
-    fun fetchPolicies() {
-        disposables += service.getPolicies()
-            .subscribeOn(rxSchedulers.io())
-            .map {
-                it
-            }
             .observeOn(rxSchedulers.main())
             .subscribe()
     }

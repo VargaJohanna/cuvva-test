@@ -4,8 +4,6 @@ import org.threeten.bp.LocalDateTime
 
 data class HomeDataObject (
     val vehicle: Vehicle,
-    val totalPolicy: Int,
-    val hasActive: Boolean,
-    val remainingTimeOfActive: LocalDateTime,
+    val createdPolicyList: List<CreatedPolicy>,
     val updated: LocalDateTime
 )

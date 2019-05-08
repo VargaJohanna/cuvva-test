@@ -2,9 +2,9 @@ package com.android.cuvvatest.repositories.vehicle
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import java.util.*
+import com.android.cuvvatest.model.Vehicle
+import org.threeten.bp.LocalDateTime
 
 @Entity(tableName = "vehicleTable")
 data class VehicleEntity(
@@ -15,4 +15,13 @@ data class VehicleEntity(
     @ColumnInfo(name = "model") val model: String,
     @ColumnInfo(name = "color") val color: String,
     @ColumnInfo(name = "updated") val updated: Long
+)
+
+fun VehicleEntity.toVehicle() = Vehicle(
+    vrm = vrm,
+    prettyVrm = prettyVrm,
+    make = make,
+    model = model,
+    color = color,
+    updated = LocalDateTime.now()
 )

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Cuvva Test</string>
+    <string name="home_active_policies_title">Active Policies</string>
+    <string name="home_vehicles">Vehicles</string>
+    <string name="home_reg_plate">Reg plate</string>
+    <string name="total_policies_title">Total policies</string>
 </resources>

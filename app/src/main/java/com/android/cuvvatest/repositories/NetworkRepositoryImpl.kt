@@ -27,7 +27,7 @@ class NetworkRepositoryImpl(
     private val createdPolicyDao: CreatedPolicyDao,
     private val paidPolicyDao: PaidPolicyDao
 ) : NetworkRepository {
-    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+    private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     override fun fetchData(): Completable {
         return service.getPolicies()
             .doOnSuccess { processData(it) }
@@ -36,7 +36,6 @@ class NetworkRepositoryImpl(
 
     private fun processData(response: Response<PolicyResponseList>) {
         val vehicleEntityMap = mutableMapOf<String, VehicleEntity>()
-//        val eventEntityMap = mutableMapOf<String, EventEntity>()
         val createdPolicyList = mutableListOf<CreatedPolicyEntity>()
         val paidPolicyList = mutableListOf<PaidPolicyEntity>()
         val cancelledPolicyList = mutableListOf<CancelledPolicyEntity>()
@@ -47,7 +46,6 @@ class NetworkRepositoryImpl(
                     it.type == Constants.TypeValues.CREATED -> {
                         vehicleEntityMap[mapVehicle(it).vrm] = mapVehicle(it)
                         createdPolicyList.add(mapCreatedPolicy(it))
-//                        eventEntityMap[mapEventEntity(it).policyId] = mapEventEntity(it)
                     }
                     it.type == Constants.TypeValues.CANCELLED -> cancelledPolicyList.add(mapCancelledPolicy(it))
                     it.type == Constants.TypeValues.PAID -> {
@@ -58,7 +56,6 @@ class NetworkRepositoryImpl(
         }
         saveDataToDatabase(
             vehicleEntityMap,
-//            eventEntityMap,
             createdPolicyList,
             paidPolicyList,
             cancelledPolicyList
@@ -67,13 +64,11 @@ class NetworkRepositoryImpl(
 
     private fun saveDataToDatabase(
         vehicleEntityMap: Map<String, VehicleEntity>,
-//        eventEntityMap: Map<String, EventEntity>,
         createdPolicyList: List<CreatedPolicyEntity>,
         paidPolicyList: List<PaidPolicyEntity>,
         cancelledPolicyList: List<CancelledPolicyEntity>
     ) {
         vehicleDao.deleteAndInsert(vehicleEntityMap.values.toList())
-//        eventDao.deleteAndInsert(eventEntityMap.values.toList())
         createdPolicyDao.deleteAndInsert(createdPolicyList)
         paidPolicyDao.deleteAndInsert(paidPolicyList)
         cancelledPolicyDao.deleteAndInsert(cancelledPolicyList)
@@ -105,14 +100,6 @@ class NetworkRepositoryImpl(
             vrm = responseEntry.payload.vehicle.vrm
         )
     }
-
-//    private fun mapEventEntity(responseEntry: PolicyResponseEntry): EventEntity {
-//        responseEntry.payload as PayloadEntry.PayloadCreated
-//        return EventEntity(
-//            policyId = responseEntry.payload.policyId,
-//            vehicleVrm = responseEntry.payload.vehicle.vrm
-//        )
-//    }
 
     private fun mapCancelledPolicy(responseEntry: PolicyResponseEntry): CancelledPolicyEntity {
         responseEntry.payload as PayloadEntry.PayloadCancelled

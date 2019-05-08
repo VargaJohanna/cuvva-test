@@ -8,4 +8,5 @@
     <color name="warning">#fed734</color>
     <color name="alert">#fc2b2e</color>
     <color name="grey">#8f8e9e</color>
+    <color name="white">#ffffff</color>
 </resources>

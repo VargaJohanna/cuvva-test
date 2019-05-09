@@ -20,22 +20,11 @@ class CreatedPolicyRepositoryImpl(
     private fun mapCreatedPolicy(list: List<CreatedPolicyEntity>): List<CreatedPolicy> {
         val newList = mutableListOf<CreatedPolicy>()
         list.forEach {
-            newList.add(
-                CreatedPolicy(
-                    policyId = it.policyId,
-                    timestamp = it.timestamp,
-                    uniqueKey = it.uniqueKey,
-                    userId = it.userId,
-                    originalPolicyId = it.originalPolicyId,
-                    startDate = LocalDateTime.ofInstant(
-                        Instant.ofEpochSecond(it.startDate),ZoneOffset.UTC),
-                    endDate = LocalDateTime.ofInstant(
-                        Instant.ofEpochSecond(it.endDate),ZoneOffset.UTC),
-                    extensionPolicy = it.policyId != it.originalPolicyId,
-                    updated = LocalDateTime.ofInstant(
-                        Instant.ofEpochSecond(it.updated),ZoneOffset.UTC)
-                )
-            )
+            val startDate = LocalDateTime.ofInstant(
+                Instant.ofEpochSecond(it.startDate),ZoneOffset.UTC)
+            val endDate = LocalDateTime.ofInstant(
+                Instant.ofEpochSecond(it.endDate),ZoneOffset.UTC)
+            newList.add(it.toCreatedPolicy())
         }
         return newList
     }

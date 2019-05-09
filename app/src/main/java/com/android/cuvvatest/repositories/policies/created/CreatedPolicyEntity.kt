@@ -3,6 +3,7 @@ package com.android.cuvvatest.repositories.policies.created
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.android.cuvvatest.Constants
 import com.android.cuvvatest.model.CreatedPolicy
 import org.threeten.bp.Instant
 import org.threeten.bp.LocalDateTime
@@ -22,18 +23,24 @@ data class CreatedPolicyEntity(
     @ColumnInfo(name = "vrm") val vrm: String
 )
 
-fun CreatedPolicyEntity.toCreatedPolicy() = CreatedPolicy(
-    policyId = policyId,
-    timestamp = timestamp,
-    uniqueKey = uniqueKey,
-    userId = userId,
-    originalPolicyId = originalPolicyId,
-    startDate = LocalDateTime.ofInstant(
+fun CreatedPolicyEntity.toCreatedPolicy(): CreatedPolicy {
+    val startDateLocal = LocalDateTime.ofInstant(
         Instant.ofEpochSecond(startDate), ZoneOffset.UTC
-    ),
-    endDate = LocalDateTime.ofInstant(
+    )
+    val endDateLocal = LocalDateTime.ofInstant(
         Instant.ofEpochSecond(endDate), ZoneOffset.UTC
-    ),
-    extensionPolicy = policyId != originalPolicyId,
-    updated = LocalDateTime.now()
-)
+    )
+
+    return CreatedPolicy(
+        policyId = policyId,
+        timestamp = timestamp,
+        uniqueKey = uniqueKey,
+        userId = userId,
+        originalPolicyId = originalPolicyId,
+        startDate = startDateLocal,
+        endDate = endDateLocal,
+        extensionPolicy = policyId != originalPolicyId,
+        updated = LocalDateTime.now(),
+        active = Constants.CURRENT_DATE < endDateLocal && Constants.CURRENT_DATE > startDateLocal
+    )
+}

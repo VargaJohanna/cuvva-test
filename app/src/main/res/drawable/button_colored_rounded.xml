@@ -12,7 +12,6 @@
     <item>
         <shape android:shape="rectangle">
             <corners android:radius="24dp" />
-            <solid android:color="@color/primaryCta" />
         </shape>
     </item>
 

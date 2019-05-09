@@ -4,4 +4,7 @@
     <string name="home_vehicles">Vehicles</string>
     <string name="home_reg_plate">Reg plate</string>
     <string name="total_policies_title">Total policies</string>
+    <string name="extend_button">Extend</string>
+    <string name="insure_button">Insure</string>
+    <string name="remaining_time">%1$s minutes remaining</string>
 </resources>

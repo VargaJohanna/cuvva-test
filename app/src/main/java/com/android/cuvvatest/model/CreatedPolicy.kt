@@ -3,13 +3,14 @@ package com.android.cuvvatest.model
 import org.threeten.bp.LocalDateTime
 
 data class CreatedPolicy(
-    private val policyId: String,
-    private val timestamp: String,
-    private val uniqueKey: String,
-    private val userId: String,
-    private val originalPolicyId: String,
-    private val startDate: LocalDateTime,
-    private val endDate: LocalDateTime,
-    private val updated: LocalDateTime,
-    private val extensionPolicy: Boolean
+    val policyId: String,
+    val timestamp: String,
+    val uniqueKey: String,
+    val userId: String,
+    val originalPolicyId: String,
+    val startDate: LocalDateTime,
+    val endDate: LocalDateTime,
+    val updated: LocalDateTime,
+    val extensionPolicy: Boolean,
+    val active: Boolean
 )

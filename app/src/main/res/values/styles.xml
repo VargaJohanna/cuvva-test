@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -13,6 +13,26 @@
         <item name="android:textStyle">bold</item>
         <item name="android:layout_height">44dp</item>
         <item name="android:background">@drawable/button_colored_rounded</item>
+    </style>
+
+    <style name="Widget.Button.Semi.Rounded" parent="Widget.AppCompat.Button.Borderless.Colored">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:background">@drawable/button_semi_rounded</item>
+        <item name="android:padding">@dimen/padding_normal</item>
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/secondaryCta</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:drawablePadding">-20dp</item>
+    </style>
+
+    <style name="HomeAppBarIcons">
+        <item name="android:background">@null</item>
+        <item name="android:tint">@color/white</item>
+        <item name="android:padding">@dimen/padding_normal</item>
+        <item name="android:layout_margin">@dimen/margin_normal</item>
     </style>
 
 </resources>

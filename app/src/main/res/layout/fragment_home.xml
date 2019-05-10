@@ -1,53 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <androidx.constraintlayout.widget.ConstraintLayout
-
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/swipe_refresh"
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        <TextView
-                android:id="@+id/active_policy_title"
+        <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/app_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/home_active_policies_title"
-                android:layout_margin="@dimen/margin_normal"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/active_policy_recycler_view"
-                app:layout_constraintEnd_toEndOf="parent"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/active_policy_recycler_view"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"
+                android:paddingBottom="@dimen/padding_big"
+                android:background="@color/colorPrimaryDark"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/vehicles_title"
-                app:layout_constraintTop_toBottomOf="@+id/active_policy_title"/>
+                app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-                android:id="@+id/vehicles_title"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <ImageView
+                        android:id="@+id/profile_button"
+                        android:layout_width="@dimen/app_bar_icon_size"
+                        android:layout_height="@dimen/app_bar_icon_size"
+                        android:src="@drawable/ic_person"
+                        style="@style/HomeAppBarIcons"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                <ImageView
+                        android:id="@+id/chat_button"
+                        android:layout_width="@dimen/app_bar_icon_size"
+                        android:layout_height="@dimen/app_bar_icon_size"
+                        style="@style/HomeAppBarIcons"
+                        android:src="@drawable/ic_chat_bubble"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+                <Button
+                        android:id="@+id/app_bar_motor"
+                        style="@style/Widget.Button.Semi.Rounded"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_car"
+                        android:text="@string/motor_button_label"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:layout_marginTop="@dimen/margin_normal"
+                        android:layout_marginBottom="@dimen/margin_normal"
+                        android:layout_marginEnd="@dimen/margin_normal"
+                        app:layout_constraintTop_toBottomOf="@id/profile_button"
+                        app:layout_constraintEnd_toStartOf="@+id/app_bar_travel"
+                        app:layout_constraintStart_toStartOf="parent"/>
+                <Button
+                        android:id="@+id/app_bar_travel"
+                        style="@style/Widget.Button.Semi.Rounded"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_airplane"
+                        android:text="@string/travel_button_label"
+                        android:layout_marginEnd="@dimen/margin_medium"
+                        android:layout_marginTop="@dimen/margin_normal"
+                        android:layout_marginBottom="@dimen/margin_normal"
+                        android:layout_marginStart="@dimen/margin_normal"
+                        app:layout_constraintStart_toEndOf="@id/app_bar_motor"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/chat_button"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+                android:fillViewport="true"
+                android:scrollbars="none"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/home_vehicles"
-                android:layout_margin="@dimen/margin_normal"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/vehicles_recycler_view"
-                app:layout_constraintTop_toBottomOf="@id/active_policy_recycler_view"/>
+                android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/vehicles_recycler_view"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"
-                app:layout_constraintTop_toBottomOf="@id/vehicles_title"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
+                <TextView
+                        android:id="@+id/active_policy_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/home_active_policies_title"
+                        android:textStyle="bold"
+                        android:paddingTop="@dimen/padding_medium"
+                        android:paddingStart="@dimen/padding_medium"
+                        android:layout_margin="@dimen/margin_normal"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/active_policy_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@+id/active_policy_title"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                <TextView
+                        android:id="@+id/vehicles_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/home_vehicles"
+                        android:textStyle="bold"
+                        android:paddingTop="@dimen/padding_medium"
+                        android:paddingStart="@dimen/padding_medium"
+                        android:layout_margin="@dimen/margin_normal"
+                        app:layout_constraintTop_toBottomOf="@+id/active_policy_recycler_view"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/vehicles_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@+id/vehicles_title"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                <ProgressBar
+                        android:id="@+id/progress_bar"
+                        android:layout_width="@dimen/icon_size"
+                        android:layout_height="@dimen/icon_size"
+                        android:layout_gravity="center"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

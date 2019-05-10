@@ -7,4 +7,6 @@
     <string name="extend_button">Extend</string>
     <string name="insure_button">Insure</string>
     <string name="remaining_time">%1$s minutes remaining</string>
+    <string name="motor_button_label">Motor</string>
+    <string name="travel_button_label">Travel</string>
 </resources>

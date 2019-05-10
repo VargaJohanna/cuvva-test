@@ -4,11 +4,13 @@ import com.android.cuvvatest.Constants
 import com.android.cuvvatest.network.PolicyDeserializer
 import com.android.cuvvatest.network.PolicyService
 import com.android.cuvvatest.network.entries.PolicyResponseList
-import com.android.cuvvatest.repositories.NetworkRepository
-import com.android.cuvvatest.repositories.NetworkRepositoryImpl
+import com.android.cuvvatest.network.NetworkRepository
+import com.android.cuvvatest.network.NetworkRepositoryImpl
 import com.android.cuvvatest.repositories.PolicyDatabase
-import com.android.cuvvatest.repositories.home.HomeDataRepository
-import com.android.cuvvatest.repositories.home.HomeDataRepositoryImpl
+import com.android.cuvvatest.repositories.VehicleAndPoliciesRepository
+import com.android.cuvvatest.repositories.VehicleAndPoliciesRepositoryImpl
+import com.android.cuvvatest.repositories.policies.cancelled.CancelledPolicyRepository
+import com.android.cuvvatest.repositories.policies.cancelled.CancelledPolicyRepositoryImpl
 import com.android.cuvvatest.repositories.policies.created.CreatedPolicyRepository
 import com.android.cuvvatest.repositories.policies.created.CreatedPolicyRepositoryImpl
 import com.android.cuvvatest.repositories.vehicle.VehicleRepository
@@ -16,6 +18,7 @@ import com.android.cuvvatest.repositories.vehicle.VehicleRepositoryImpl
 import com.android.cuvvatest.rx.RxSchedulers
 import com.android.cuvvatest.rx.RxSchedulersImpl
 import com.android.cuvvatest.ui.home.HomeViewModel
+import com.android.cuvvatest.ui.vehicle.VehicleViewModel
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
@@ -59,7 +62,8 @@ val schedulerModule = module {
 }
 
 val viewModelModule = module {
-    viewModel { HomeViewModel(get(), get(), get()) }
+    viewModel { HomeViewModel(get(), get()) }
+    viewModel { VehicleViewModel(get(), get()) }
 }
 
 val repositoryModule = module {
@@ -69,7 +73,16 @@ val repositoryModule = module {
     single { get<PolicyDatabase>().cancelledPolicyDao() }
     single { get<PolicyDatabase>().paidPolicyDao() }
     single<VehicleRepository> { VehicleRepositoryImpl(get()) }
-    single<NetworkRepository> { NetworkRepositoryImpl(get(), get(), get(), get(), get()) }
+    single<NetworkRepository> {
+        NetworkRepositoryImpl(
+            get(),
+            get(),
+            get(),
+            get(),
+            get()
+        )
+    }
     single<CreatedPolicyRepository> { CreatedPolicyRepositoryImpl(get()) }
-    single<HomeDataRepository> { HomeDataRepositoryImpl(get()) }
+    single<VehicleAndPoliciesRepository> { VehicleAndPoliciesRepositoryImpl(get()) }
+    single<CancelledPolicyRepository> { CancelledPolicyRepositoryImpl(get()) }
 }

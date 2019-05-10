@@ -1,7 +1,7 @@
-package com.android.cuvvatest.repositories.home
+package com.android.cuvvatest.repositories
 
 import com.android.cuvvatest.Constants
-import com.android.cuvvatest.model.HomeDataObject
+import com.android.cuvvatest.model.VehicleAndPolicies
 import com.android.cuvvatest.repositories.policies.created.toCreatedPolicy
 import com.android.cuvvatest.repositories.vehicle.VehicleDao
 import com.android.cuvvatest.repositories.vehicle.toVehicle
@@ -9,13 +9,13 @@ import io.reactivex.Observable
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.temporal.ChronoUnit
 
-class HomeDataRepositoryImpl(
+class VehicleAndPoliciesRepositoryImpl(
     private val vehicleDao: VehicleDao
-) : HomeDataRepository {
-    override fun getVehiclesAndCreatedPolicies(): Observable<List<HomeDataObject>> {
+) : VehicleAndPoliciesRepository {
+    override fun getVehiclesAndCreatedPolicies(): Observable<List<VehicleAndPolicies>> {
         return vehicleDao.loadVehicleAndEvents()
             .map { list ->
-                val homeDataList = mutableListOf<HomeDataObject>()
+                val homeDataList = mutableListOf<VehicleAndPolicies>()
                 list.forEach { vehicleAndAllCreatedPolicies ->
                     val createdPolicyList = vehicleAndAllCreatedPolicies.createdPolicyList.map {
                         it.toCreatedPolicy()
@@ -29,7 +29,7 @@ class HomeDataRepositoryImpl(
                     }
 
                     homeDataList.add(
-                        HomeDataObject(
+                        VehicleAndPolicies(
                             vehicle = vehicleAndAllCreatedPolicies.vehicleEntity[0].toVehicle(),
                             createdPolicyList = createdPolicyList,
                             updated = LocalDateTime.now(),

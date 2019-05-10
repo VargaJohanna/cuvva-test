@@ -1,4 +1,4 @@
-package com.android.cuvvatest.repositories
+package com.android.cuvvatest.network
 
 import io.reactivex.Completable
 

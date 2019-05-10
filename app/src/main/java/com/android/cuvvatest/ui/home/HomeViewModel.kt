@@ -4,34 +4,26 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.android.cuvvatest.ext.plusAssign
-import com.android.cuvvatest.model.HomeDataObject
-import com.android.cuvvatest.repositories.NetworkRepository
-import com.android.cuvvatest.repositories.home.HomeDataRepository
+import com.android.cuvvatest.model.VehicleAndPolicies
+import com.android.cuvvatest.repositories.VehicleAndPoliciesRepository
 import com.android.cuvvatest.rx.RxSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import org.threeten.bp.LocalDateTime
 
 class HomeViewModel(
     private val rxSchedulers: RxSchedulers,
-    private val homeDataRepository: HomeDataRepository,
-    networkRepository: NetworkRepository
+    private val vehicleAndPoliciesRepository: VehicleAndPoliciesRepository
 ) : ViewModel() {
     private val disposables = CompositeDisposable()
-    private val activeVehicleList: MutableLiveData<List<HomeDataObject>> = MutableLiveData()
-    private val vehicleList: MutableLiveData<List<HomeDataObject>> = MutableLiveData()
+    private val activeVehicleList: MutableLiveData<List<VehicleAndPolicies>> = MutableLiveData()
+    private val vehicleList: MutableLiveData<List<VehicleAndPolicies>> = MutableLiveData()
 
     init {
-        disposables += networkRepository.fetchData()
-            .subscribeOn(rxSchedulers.io())
-            .observeOn(rxSchedulers.main())
-            .subscribe()
-
         getActiveVehicleData()
         getVehicleData()
     }
 
     private fun getActiveVehicleData() {
-        disposables += homeDataRepository.getVehiclesAndCreatedPolicies()
+        disposables += vehicleAndPoliciesRepository.getVehiclesAndCreatedPolicies()
             .subscribeOn(rxSchedulers.io())
             .map { list -> list.filter { it.hasActive } }
             .observeOn(rxSchedulers.main())
@@ -39,15 +31,15 @@ class HomeViewModel(
     }
 
     private fun getVehicleData() {
-        disposables += homeDataRepository.getVehiclesAndCreatedPolicies()
+        disposables += vehicleAndPoliciesRepository.getVehiclesAndCreatedPolicies()
             .subscribeOn(rxSchedulers.io())
             .map { list -> list.filter { !it.hasActive } }
             .observeOn(rxSchedulers.main())
             .subscribe{t -> vehicleList.postValue(t)}
     }
 
-    fun getActiveVehicleList(): LiveData<List<HomeDataObject>> = activeVehicleList
-    fun getVehicleList(): LiveData<List<HomeDataObject>> = vehicleList
+    fun getActiveVehicleList(): LiveData<List<VehicleAndPolicies>> = activeVehicleList
+    fun getVehicleList(): LiveData<List<VehicleAndPolicies>> = vehicleList
     override fun onCleared() {
         disposables.clear()
         super.onCleared()

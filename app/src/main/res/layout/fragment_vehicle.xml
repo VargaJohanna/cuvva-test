@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/swipe_refresh"
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/app_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/padding_big"
+                android:background="@color/colorPrimary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <ImageView
+                        android:id="@+id/close_button"
+                        android:layout_width="@dimen/app_bar_icon_size"
+                        android:layout_height="@dimen/app_bar_icon_size"
+                        android:src="@drawable/ic_close"
+                        style="@style/HomeAppBarIcons"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/padding_normal"
+                        android:layout_margin="@dimen/margin_normal"
+                        android:text="@string/vehicle_profile_title"
+                        android:textColor="@color/white"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/chat_button"
+                        app:layout_constraintStart_toEndOf="@id/close_button"/>
+
+                <ImageView
+                        android:id="@+id/chat_button"
+                        android:layout_width="@dimen/app_bar_icon_size"
+                        android:layout_height="@dimen/app_bar_icon_size"
+                        style="@style/HomeAppBarIcons"
+                        android:src="@drawable/ic_chat_bubble"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                <ImageView
+                        android:id="@+id/vehicle_logo"
+                        android:layout_width="@dimen/app_bar_icon_size"
+                        android:src="@drawable/carlogo_volkswagen"
+                        android:tint="@color/colorPrimaryDark"
+                        android:background="@drawable/circle"
+                        android:layout_margin="@dimen/margin_normal"
+                        android:padding="@dimen/padding_small"
+                        android:layout_height="@dimen/app_bar_icon_size"
+                        app:layout_constraintTop_toBottomOf="@id/close_button"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                        android:id="@+id/vehicle_make"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_normal"
+                        android:textColor="@color/grey"
+                        tools:text="Volkswagen"
+                        app:layout_constraintStart_toEndOf="@id/vehicle_logo"
+                        app:layout_constraintTop_toBottomOf="@+id/close_button"/>
+
+                <TextView
+                        android:id="@+id/model"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_normal"
+                        android:textColor="@color/grey"
+                        tools:text="Polo"
+                        app:layout_constraintStart_toEndOf="@id/vehicle_make"
+                        app:layout_constraintTop_toBottomOf="@id/close_button"/>
+
+                <TextView
+                        android:id="@+id/vehicle_reg_plate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        tools:text="lb07 seo"
+                        app:layout_constraintTop_toBottomOf="@id/vehicle_make"
+                        app:layout_constraintStart_toStartOf="@+id/vehicle_make"/>
+
+                <TextView
+                        android:id="@+id/total_policies_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_normal"
+                        android:layout_marginTop="@dimen/margin_medium"
+                        android:textSize="@dimen/text_size_small"
+                        android:textColor="@color/grey"
+                        android:text="@string/total_policies_title"
+                        app:layout_constraintTop_toBottomOf="@id/vehicle_logo"
+                        app:layout_constraintStart_toStartOf="@+id/close_button"/>
+
+                <TextView
+                        android:id="@+id/total_policies"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_size_small"
+                        android:textColor="@color/grey"
+                        tools:text="1"
+                        app:layout_constraintTop_toBottomOf="@id/total_policies_title"
+                        app:layout_constraintStart_toStartOf="@+id/total_policies_title"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+                android:fillViewport="true"
+                android:scrollbars="none"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <TextView
+                        android:id="@+id/vehicle_active_policy"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/vehicle_screen_active_driving_policy"
+                        android:textStyle="bold"
+                        android:paddingTop="@dimen/padding_medium"
+                        android:paddingStart="@dimen/padding_medium"
+                        android:layout_margin="@dimen/margin_normal"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/active_policy_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:cardCornerRadius="@dimen/card_corner_radius"
+                        android:padding="@dimen/padding_normal"
+                        app:contentPadding="@dimen/padding_normal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/vehicle_active_policy">
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                        <TextView
+                                android:id="@+id/active_policy_card_title"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/margin_normal"
+                                android:textStyle="bold"
+                                android:textColor="@color/colorPrimaryDark"
+                                android:text="@string/vehicle_active_policy"
+                                android:gravity="center"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"/>
+
+                        <TextView
+                                android:id="@+id/vehicle_remaining_time_title"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/margin_normal"
+                                android:textStyle="bold"
+                                android:text="@string/vehicle_time_remaining"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/active_policy_card_title"/>
+
+                        <TextView
+                                android:id="@+id/vehicle_remaining_time_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/margin_normal"
+                                android:textStyle="bold"
+                                android:textSize="@dimen/text_size_normal"
+                                android:textColor="@color/colorPrimary"
+                                tools:text="44"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/vehicle_remaining_time_title"/>
+
+                        <TextView
+                                android:id="@+id/vehicle_minutes"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/margin_normal"
+                                android:textSize="@dimen/text_size_normal"
+                                android:textColor="@color/colorPrimary"
+                                android:text="@string/vehicle_mins"
+                                app:layout_constraintStart_toEndOf="@+id/vehicle_remaining_time_value"
+                                app:layout_constraintTop_toBottomOf="@id/vehicle_remaining_time_title"/>
+
+                        <Button
+                                android:id="@+id/vehicle_policy_button"
+                                style="@style/Widget.Button.Semi.Rounded"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/margin_normal"
+                                android:drawableStart="@drawable/ic_document"
+                                android:text="@string/vehicle_policy_button"
+                                android:layout_marginStart="@dimen/margin_medium"
+                                android:layout_marginTop="@dimen/margin_normal"
+                                android:backgroundTint="@color/secondaryColour10"
+                                android:layout_marginBottom="@dimen/margin_normal"
+                                android:layout_marginEnd="@dimen/margin_normal"
+                                app:layout_constraintTop_toBottomOf="@id/vehicle_minutes"
+                                app:layout_constraintEnd_toStartOf="@+id/vehicle_help_button"
+                                app:layout_constraintStart_toStartOf="parent"/>
+                        <Button
+                                android:id="@+id/vehicle_help_button"
+                                style="@style/Widget.Button.Semi.Rounded"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/margin_normal"
+                                android:textColor="@color/alert"
+                                android:backgroundTint="@color/secondaryColour10"
+                                android:drawableStart="@drawable/ic_help"
+                                android:text="@string/vehicle_get_help_button"
+                                android:layout_marginEnd="@dimen/margin_medium"
+                                android:layout_marginTop="@dimen/margin_normal"
+                                android:layout_marginBottom="@dimen/margin_normal"
+                                android:layout_marginStart="@dimen/margin_normal"
+                                app:layout_constraintStart_toEndOf="@id/vehicle_policy_button"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/vehicle_minutes"/>
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                        android:id="@+id/vehicles_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/vehicle_previous_driving_policies"
+                        android:textStyle="bold"
+                        android:paddingTop="@dimen/padding_medium"
+                        android:paddingStart="@dimen/padding_medium"
+                        android:layout_margin="@dimen/margin_normal"
+                        app:layout_constraintTop_toBottomOf="@+id/active_policy_card"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/vehicles_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@+id/vehicles_title"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                <ProgressBar
+                        android:id="@+id/progress_bar"
+                        android:layout_width="@dimen/icon_size"
+                        android:layout_height="@dimen/icon_size"
+                        android:layout_gravity="center"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

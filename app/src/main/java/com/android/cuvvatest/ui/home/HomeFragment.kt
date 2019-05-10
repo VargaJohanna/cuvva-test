@@ -11,15 +11,23 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.cuvvatest.R
+import com.android.cuvvatest.ext.plusAssign
 import com.android.cuvvatest.ext.show
-import com.android.cuvvatest.model.HomeDataObject
-import kotlinx.android.synthetic.main.fragment_home.*
+import com.android.cuvvatest.model.VehicleAndPolicies
+import com.android.cuvvatest.network.NetworkRepository
+import com.android.cuvvatest.rx.RxSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_home.view.*
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.viewModel
 
 class HomeFragment : Fragment(), ActivePolicyAdapter.ItemClickListener, VehicleAdapter.VehicleItemClickListener {
     private val homeViewModel: HomeViewModel by viewModel()
-    override fun onItemClick(dataObject: HomeDataObject) {
+    private val networkRepository: NetworkRepository by inject()
+    private val rxSchedulers: RxSchedulers by inject()
+    private val disposables = CompositeDisposable()
+
+    override fun onItemClick(dataObject: VehicleAndPolicies) {
 
     }
 
@@ -36,6 +44,14 @@ class HomeFragment : Fragment(), ActivePolicyAdapter.ItemClickListener, VehicleA
                 Handler().postDelayed({ swipe_refresh.isRefreshing = false }, 1000)
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        disposables += networkRepository.fetchData()
+            .subscribeOn(rxSchedulers.io())
+            .observeOn(rxSchedulers.main())
+            .subscribe()
     }
 
     private fun observeVehicleList(vehicleAdapter: VehicleAdapter, progressBar: ProgressBar) {

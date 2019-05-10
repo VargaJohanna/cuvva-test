@@ -6,11 +6,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.android.cuvvatest.R
-import com.android.cuvvatest.model.HomeDataObject
+import com.android.cuvvatest.model.VehicleAndPolicies
 import kotlinx.android.synthetic.main.row_home_active_policy.view.*
 
 class ActivePolicyAdapter(
-    private var activeVehicles: List<HomeDataObject>,
+    private var activeVehicles: List<VehicleAndPolicies>,
     private val itemClickListener: ItemClickListener
 ) : RecyclerView.Adapter<ActivePolicyAdapter.PolicyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PolicyViewHolder {
@@ -25,7 +25,7 @@ class ActivePolicyAdapter(
     }
 
     inner class PolicyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(dataObject: HomeDataObject) {
+        fun bind(dataObject: VehicleAndPolicies) {
             itemView.apply {
                 home_vehicle_make.text = dataObject.vehicle.make
                 color.text = dataObject.vehicle.color
@@ -57,12 +57,12 @@ class ActivePolicyAdapter(
         }
     }
 
-    fun updateList(newList: List<HomeDataObject>) {
+    fun updateList(newList: List<VehicleAndPolicies>) {
         activeVehicles = newList
         notifyDataSetChanged()
     }
 
     interface ItemClickListener {
-        fun onItemClick(dataObject: HomeDataObject)
+        fun onItemClick(dataObject: VehicleAndPolicies)
     }
 }

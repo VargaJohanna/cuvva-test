@@ -9,4 +9,12 @@
     <string name="remaining_time">%1$s minutes remaining</string>
     <string name="motor_button_label">Motor</string>
     <string name="travel_button_label">Travel</string>
+    <string name="vehicle_screen_active_driving_policy">Active driving policy</string>
+    <string name="vehicle_previous_driving_policies">Previous driving policies</string>
+    <string name="vehicle_profile_title">Vehicle profile</string>
+    <string name="vehicle_active_policy">Active policy</string>
+    <string name="vehicle_time_remaining">Time remaining</string>
+    <string name="vehicle_mins">mins</string>
+    <string name="vehicle_policy_button">Policy</string>
+    <string name="vehicle_get_help_button">Get help</string>
 </resources>

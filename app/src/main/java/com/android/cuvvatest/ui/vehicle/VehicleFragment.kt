@@ -1,4 +1,4 @@
-package com.android.cuvvatest.ui.receipt
+package com.android.cuvvatest.ui.vehicle
 
 import android.os.Bundle
 import android.view.LayoutInflater

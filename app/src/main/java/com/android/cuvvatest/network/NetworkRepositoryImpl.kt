@@ -1,8 +1,7 @@
-package com.android.cuvvatest.repositories
+package com.android.cuvvatest.network
 
-//import com.android.cuvvatest.repositories.policies.EventEntity
 import com.android.cuvvatest.Constants
-import com.android.cuvvatest.network.PolicyService
+import com.android.cuvvatest.customException.CustomException
 import com.android.cuvvatest.network.entries.PayloadEntry
 import com.android.cuvvatest.network.entries.PolicyResponseEntry
 import com.android.cuvvatest.network.entries.PolicyResponseList
@@ -28,33 +27,39 @@ class NetworkRepositoryImpl(
     private val paidPolicyDao: PaidPolicyDao
 ) : NetworkRepository {
     private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+
     override fun fetchData(): Completable {
         return service.getPolicies()
-            .doOnSuccess { processData(it) }
-            .ignoreElement()
+            .flatMapCompletable {
+                if (it.isSuccessful && it.body() != null) {
+                    processData(it)
+                } else if (it.errorBody() != null) {
+                    Completable.error(CustomException(it.message()))
+                } else {
+                    Completable.error(CustomException(it.message()))
+                }
+            }
     }
 
-    private fun processData(response: Response<PolicyResponseList>) {
+    private fun processData(response: Response<PolicyResponseList>): Completable {
         val vehicleEntityMap = mutableMapOf<String, VehicleEntity>()
         val createdPolicyList = mutableListOf<CreatedPolicyEntity>()
         val paidPolicyList = mutableListOf<PaidPolicyEntity>()
         val cancelledPolicyList = mutableListOf<CancelledPolicyEntity>()
 
-        if (response.isSuccessful && response.body() != null) {
-            response.body()!!.responseList.forEach {
-                when {
-                    it.type == Constants.TypeValues.CREATED -> {
-                        vehicleEntityMap[mapVehicle(it).vrm] = mapVehicle(it)
-                        createdPolicyList.add(mapCreatedPolicy(it))
-                    }
-                    it.type == Constants.TypeValues.CANCELLED -> cancelledPolicyList.add(mapCancelledPolicy(it))
-                    it.type == Constants.TypeValues.PAID -> {
-                        paidPolicyList.add(mapPaidPolicy(it))
-                    }
+        response.body()!!.responseList.forEach {
+            when {
+                it.type == Constants.TypeValues.CREATED -> {
+                    vehicleEntityMap[mapVehicle(it).vrm] = mapVehicle(it)
+                    createdPolicyList.add(mapCreatedPolicy(it))
+                }
+                it.type == Constants.TypeValues.CANCELLED -> cancelledPolicyList.add(mapCancelledPolicy(it))
+                it.type == Constants.TypeValues.PAID -> {
+                    paidPolicyList.add(mapPaidPolicy(it))
                 }
             }
         }
-        saveDataToDatabase(
+        return saveDataToDatabase(
             vehicleEntityMap,
             createdPolicyList,
             paidPolicyList,
@@ -67,11 +72,13 @@ class NetworkRepositoryImpl(
         createdPolicyList: List<CreatedPolicyEntity>,
         paidPolicyList: List<PaidPolicyEntity>,
         cancelledPolicyList: List<CancelledPolicyEntity>
-    ) {
-        vehicleDao.deleteAndInsert(vehicleEntityMap.values.toList())
-        createdPolicyDao.deleteAndInsert(createdPolicyList)
-        paidPolicyDao.deleteAndInsert(paidPolicyList)
-        cancelledPolicyDao.deleteAndInsert(cancelledPolicyList)
+    ): Completable {
+        return Completable.fromAction {
+            vehicleDao.deleteAndInsert(vehicleEntityMap.values.toList())
+            createdPolicyDao.deleteAndInsert(createdPolicyList)
+            paidPolicyDao.deleteAndInsert(paidPolicyList)
+            cancelledPolicyDao.deleteAndInsert(cancelledPolicyList)
+        }
     }
 
     private fun mapVehicle(responseEntry: PolicyResponseEntry): VehicleEntity {

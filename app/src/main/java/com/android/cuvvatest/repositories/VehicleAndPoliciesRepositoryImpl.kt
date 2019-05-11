@@ -17,17 +17,13 @@ class VehicleAndPoliciesRepositoryImpl(
             .map { list ->
                 val homeDataList = mutableListOf<VehicleAndPolicies>()
                 list.forEach { vehicleAndAllCreatedPolicies ->
-                    val createdPolicyList = vehicleAndAllCreatedPolicies.createdPolicyList.map {
-                        it.toCreatedPolicy()
-                    }
+                    val createdPolicyList = vehicleAndAllCreatedPolicies.createdPolicyList.map { it.toCreatedPolicy() }
                     var remainingTime = 0L
-                    if(createdPolicyList.any{it.active}) {
+                    if(createdPolicyList.any{ it.active}) {
                         val activePolicy = createdPolicyList.first { it.active }
                         val fromTemp = LocalDateTime.from(Constants.CURRENT_DATE)
                         remainingTime = fromTemp.until(activePolicy.endDate, ChronoUnit.MINUTES)
-
                     }
-
                     homeDataList.add(
                         VehicleAndPolicies(
                             vehicle = vehicleAndAllCreatedPolicies.vehicleEntity[0].toVehicle(),

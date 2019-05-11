@@ -14,6 +14,9 @@ interface CancelledPolicyDao {
     @Query("SELECT * FROM cancelledPolicyTable WHERE policy_id = :policyId")
     fun getPoliciesById(policyId: String): Observable<List<CancelledPolicyEntity>>
 
+    @Query("SELECT * FROM cancelledPolicyTable")
+    fun getAll(): Observable<List<CancelledPolicyEntity>>
+
     @Query("DELETE FROM cancelledPolicyTable")
     fun deleteAll()
 

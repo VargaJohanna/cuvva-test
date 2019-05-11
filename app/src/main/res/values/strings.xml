@@ -17,4 +17,9 @@
     <string name="vehicle_mins">mins</string>
     <string name="vehicle_policy_button">Policy</string>
     <string name="vehicle_get_help_button">Get help</string>
+    <string name="vehicle_extend_cover_button">Extend cover</string>
+    <string name="there_s_no_active_policy_at_the_moment">There\'s no active policy at the moment</string>
+    <string name="previous_voided">Voided</string>
+    <string name="duration_of_policy">%1$s minutes</string>
+    <string name="create_new_policy">Create new policy</string>
 </resources>

@@ -44,3 +44,4 @@ fun CreatedPolicyEntity.toCreatedPolicy(): CreatedPolicy {
         active = Constants.CURRENT_DATE < endDateLocal && Constants.CURRENT_DATE > startDateLocal
     )
 }
+

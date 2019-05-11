@@ -12,4 +12,6 @@ object Constants {
         const val PAID = "policy_financial_transaction"
         const val CANCELLED = "policy_cancelled"
     }
+
+    val FROM_LOCAL_DATE_TIME: LocalDateTime = LocalDateTime.from(CURRENT_DATE)
 }

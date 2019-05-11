@@ -20,6 +20,7 @@ import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.viewModel
+import androidx.navigation.fragment.findNavController
 
 class HomeFragment : Fragment(), ActivePolicyAdapter.ItemClickListener, VehicleAdapter.VehicleItemClickListener {
     private val homeViewModel: HomeViewModel by viewModel()
@@ -28,7 +29,12 @@ class HomeFragment : Fragment(), ActivePolicyAdapter.ItemClickListener, VehicleA
     private val disposables = CompositeDisposable()
 
     override fun onItemClick(dataObject: VehicleAndPolicies) {
-
+        val action = HomeFragmentDirections.fromHomeToVehicle(
+            dataObject.vehicle.prettyVrm,
+            dataObject.vehicle.make,
+            dataObject.vehicle.model
+        )
+        findNavController().navigate(action)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

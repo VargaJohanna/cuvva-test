@@ -1,13 +1,12 @@
 package com.android.cuvvatest.repositories.policies.created
 
 import com.android.cuvvatest.model.CreatedPolicy
+import com.android.cuvvatest.repositories.policies.cancelled.CancelledPolicyDao
 import io.reactivex.Observable
-import org.threeten.bp.Instant
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.ZoneOffset
 
 class CreatedPolicyRepositoryImpl(
-    private val createdPolicyDao: CreatedPolicyDao
+    private val createdPolicyDao: CreatedPolicyDao,
+    private val cancelledPolicyDao: CancelledPolicyDao
 ) : CreatedPolicyRepository {
 
     override fun getPolicyById(policyId: String): Observable<List<CreatedPolicy>> {
@@ -20,11 +19,10 @@ class CreatedPolicyRepositoryImpl(
     private fun mapCreatedPolicy(list: List<CreatedPolicyEntity>): List<CreatedPolicy> {
         val newList = mutableListOf<CreatedPolicy>()
         list.forEach {
-            val startDate = LocalDateTime.ofInstant(
-                Instant.ofEpochSecond(it.startDate),ZoneOffset.UTC)
-            val endDate = LocalDateTime.ofInstant(
-                Instant.ofEpochSecond(it.endDate),ZoneOffset.UTC)
-            newList.add(it.toCreatedPolicy())
+            cancelledPolicyDao.getPoliciesById(it.policyId)
+                .map { cancelledPolicyList ->
+                    newList.add(it.toCreatedPolicy())
+                }
         }
         return newList
     }

@@ -3,9 +3,9 @@ package com.android.cuvvatest.ui.home
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.android.cuvvatest.R
+import com.android.cuvvatest.ext.toCarLogo
 import com.android.cuvvatest.model.VehicleAndPolicies
 import kotlinx.android.synthetic.main.row_home_active_policy.view.*
 
@@ -37,22 +37,13 @@ class ActivePolicyAdapter(
                     context.getString(R.string.remaining_time),
                     dataObject.remainingTimeOfActive.toString()
                 )
-                setVehicleLogo(dataObject.vehicle.model, vehicle_logo)
+                vehicle_logo.toCarLogo(dataObject.vehicle.make)
             }
         }
 
         init {
             itemView.setOnClickListener {
                 itemClickListener.onItemClick(activeVehicles[layoutPosition])
-            }
-        }
-
-        private fun setVehicleLogo(make: String, image: ImageView) {
-            when(make) {
-                "Volkswagen" -> image.setImageResource(R.drawable.carlogo_volkswagen)
-                "Mercedes-Benz" -> image.setImageResource(R.drawable.carlogo_mercedes)
-                "MINI" -> image.setImageResource(R.drawable.carlogo_mini)
-                else -> image.setImageResource(R.drawable.carlogo_volkswagen)
             }
         }
     }

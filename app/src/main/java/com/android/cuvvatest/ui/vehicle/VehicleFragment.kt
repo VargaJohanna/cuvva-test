@@ -48,7 +48,7 @@ class VehicleFragment : Fragment(), PreviousPolicyAdapter.PreviousPolicyClickLis
             vehicle_model.text = args.model
             vehicle_reg_plate.text = args.prettyVrm
             setTotalPolicies(vehicle_total_policies)
-            setActivePolicy(active_policy_card, no_active_policy, vehicle_active_policy, cover_button)
+            setActivePolicy(policy_card, no_active_policy, vehicle_active_policy, cover_button)
             swipe_refresh.setOnRefreshListener {
                 //Refresh data here
                 Handler().postDelayed({ swipe_refresh.isRefreshing = false }, 1000)

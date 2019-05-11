@@ -7,7 +7,7 @@
         android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
-            android:id="@+id/active_policy_card"
+            android:id="@+id/policy_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"

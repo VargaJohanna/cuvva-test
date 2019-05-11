@@ -22,4 +22,10 @@
     <string name="previous_voided">Voided</string>
     <string name="duration_of_policy">%1$s minutes</string>
     <string name="create_new_policy">Create new policy</string>
+    <string name="receipt_voided_message">This policy has been voided</string>
+    <string name="receipt_insurance_premium">Insurance premium</string>
+    <string name="receipt_insurance_premium_tax">Insurance premium tax</string>
+    <string name="receipt_admin_fee">Admin fee</string>
+    <string name="receipt_total_paid">Total paid</string>
+    <string name="receipt_grand_total">Grand total</string>
 </resources>

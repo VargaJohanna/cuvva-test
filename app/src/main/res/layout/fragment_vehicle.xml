@@ -12,7 +12,7 @@
                 android:id="@+id/app_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/padding_big"
+                android:paddingBottom="@dimen/padding_medium"
                 android:background="@color/colorPrimary"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -127,12 +127,12 @@
                         android:text="@string/vehicle_extend_cover_button"
                         android:layout_marginStart="@dimen/margin_medium"
                         android:layout_marginEnd="@dimen/margin_medium"
-                        android:layout_marginTop="@dimen/margin_large"
+                        android:layout_marginTop="@dimen/margin_medium"
                         android:textColor="@color/white"
                         android:backgroundTint="@color/primaryCta"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/total_policies_title"/>
+                        app:layout_constraintTop_toBottomOf="@+id/vehicle_total_policies"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.appbar.AppBarLayout>
 

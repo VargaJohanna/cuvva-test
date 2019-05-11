@@ -55,19 +55,9 @@ class VehicleFragment : Fragment(), PreviousPolicyAdapter.PreviousPolicyClickLis
             }
             closeButton(close_button)
             vehicle_logo.toCarLogo(args.make)
-            carLogo(vehicle_logo)
 
             generateActiveList(previousPolicyAdapter, vehicles_recycler_view)
             observeActiveList(previousPolicyAdapter, progress_bar)
-        }
-    }
-
-    private fun carLogo(image: ImageView) {
-        when(args.make) {
-            "Volkswagen" -> image.setImageResource(R.drawable.carlogo_volkswagen)
-            "Mercedes-Benz" -> image.setImageResource(R.drawable.carlogo_mercedes)
-            "MINI" -> image.setImageResource(R.drawable.carlogo_mini)
-            else -> image.setImageResource(R.drawable.carlogo_volkswagen)
         }
     }
 

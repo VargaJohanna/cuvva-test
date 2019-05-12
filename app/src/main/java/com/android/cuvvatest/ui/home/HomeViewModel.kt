@@ -48,7 +48,13 @@ class HomeViewModel(
             .subscribeOn(rxSchedulers.io())
             .map { list -> list.filter { it.hasActive } }
             .observeOn(rxSchedulers.main())
-            .subscribe{t -> activeVehicleList.postValue(t)}
+            .subscribe{t ->
+                if(t.isNotEmpty()) {
+                    activeVehicleList.postValue(t)
+                } else {
+                    message.postValue("Sorry, there's nothing to show.")
+                }
+            }
     }
 
     private fun getVehicleData() {

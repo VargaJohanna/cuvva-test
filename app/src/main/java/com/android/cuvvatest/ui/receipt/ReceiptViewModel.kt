@@ -35,7 +35,7 @@ class ReceiptViewModel(
                     message.postValue("Data is successfully updated.")
                 },
                 {
-                    if(it is CustomException) {
+                    if (it is CustomException) {
                         message.postValue(it.errorMessage)
                     } else {
                         message.postValue(it.message)
@@ -48,7 +48,13 @@ class ReceiptViewModel(
         disposables += paidPolicyRepository.getPolicyById(policyId)
             .subscribeOn(rxSchedulers.io())
             .observeOn(rxSchedulers.main())
-            .subscribe{t -> paidPolicyList.postValue(t)}
+            .subscribe { t ->
+                if (t.isNotEmpty()) {
+                    paidPolicyList.postValue(t)
+                } else {
+                    message.postValue("Sorry, there's nothing to show.")
+                }
+            }
     }
 
     fun getLivePaidPolicy(): LiveData<List<PaidPolicy>> = paidPolicyList

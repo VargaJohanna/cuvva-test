@@ -43,7 +43,7 @@ class VehicleViewModel(
                     message.postValue("Data is successfully updated.")
                 },
                 {
-                    if(it is CustomException) {
+                    if (it is CustomException) {
                         message.postValue(it.errorMessage)
                     } else {
                         message.postValue(it.message)
@@ -63,13 +63,17 @@ class VehicleViewModel(
             }
             .observeOn(rxSchedulers.main())
             .subscribe { t ->
-                _createdPolicies.onNext(t)
-                numberOfPolicies.postValue(t.filter { !it.extensionPolicy }.size)
+                if (t.isNotEmpty()) {
+                    _createdPolicies.onNext(t)
+                    numberOfPolicies.postValue(t.filter { !it.extensionPolicy }.size)
+                } else {
+                    message.postValue("Sorry, there's nothing to show.")
+                }
             }
     }
 
     private fun getPolicies() {
-        // Policies contains has a boolean value for cancelled, so the adapter will be able to identify it.
+        // Policy contains has a boolean value for cancelled, so the adapter will be able to identify it.
         disposables += policyRepository.getPolicy(createdPolicies)
             .subscribeOn(rxSchedulers.io())
             .observeOn(rxSchedulers.main())

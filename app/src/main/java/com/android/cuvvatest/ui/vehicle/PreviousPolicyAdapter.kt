@@ -42,6 +42,8 @@ class PreviousPolicyAdapter(
                             ChronoUnit.MINUTES
                         ).toString()
                     )
+                    previous_duration.setTextColor(ContextCompat.getColor(itemView.context, R.color.abc_primary_text_material_light))
+
                 }
                 val date = policy.createdPolicy.startDate
                 val englishDate = date.format(DateTimeFormatter.ofPattern("d MMM YYYY", Locale.UK))
@@ -60,7 +62,7 @@ class PreviousPolicyAdapter(
 
     fun updateList(list: List<Policy>) {
         policyList = list
-        notifyDataSetChanged() //Use diff util
+        notifyDataSetChanged()
     }
 
     interface PreviousPolicyClickListener {

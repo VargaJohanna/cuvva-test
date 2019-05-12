@@ -20,6 +20,7 @@ import org.koin.androidx.viewmodel.ext.viewModel
 
 class HomeFragment : Fragment(), ActivePolicyAdapter.ItemClickListener, VehicleAdapter.VehicleItemClickListener {
     private val homeViewModel: HomeViewModel by viewModel()
+    private var toast: Toast? = null
 
     override fun onItemClick(dataObject: VehicleAndPolicies) {
         val action = HomeFragmentDirections.fromHomeToVehicle(
@@ -34,6 +35,7 @@ class HomeFragment : Fragment(), ActivePolicyAdapter.ItemClickListener, VehicleA
         val activeAdapter = ActivePolicyAdapter(ArrayList(), this)
         val vehicleAdapter = VehicleAdapter(ArrayList(), this)
         showErrorMessage()
+
         return inflater.inflate(R.layout.fragment_home, container, false).apply {
             generateActiveList(activeAdapter, active_policy_recycler_view)
             observeActiveList(activeAdapter, progress_bar)
@@ -45,11 +47,6 @@ class HomeFragment : Fragment(), ActivePolicyAdapter.ItemClickListener, VehicleA
                 Handler().postDelayed({ swipe_refresh.isRefreshing = false }, 1000)
             }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        homeViewModel.fetchDataFromNetwork()
     }
 
     private fun observeVehicleList(vehicleAdapter: VehicleAdapter, progressBar: ProgressBar) {
@@ -72,6 +69,9 @@ class HomeFragment : Fragment(), ActivePolicyAdapter.ItemClickListener, VehicleA
         homeViewModel.getActiveVehicleList().observe(this, Observer {
             adapter.updateList(it)
             progressBar.show(false)
+            if (toast != null) {
+                toast?.cancel()
+            }
         })
     }
 
@@ -83,14 +83,16 @@ class HomeFragment : Fragment(), ActivePolicyAdapter.ItemClickListener, VehicleA
     }
 
     /**
-     * Observe the error getMessage and show the returned text in a toast
+     * Observe the message and show the returned text in a toast
      */
     private fun showErrorMessage() {
         homeViewModel.getMessage().observe(this, Observer {
-            if(!it.isNullOrEmpty()) {
-                Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+            if (!it.isNullOrEmpty()) {
+                toast = Toast.makeText(requireContext(), it, Toast.LENGTH_LONG)
+                toast?.show()
             } else {
-                Toast.makeText(requireContext(), getString(R.string.generic_error), Toast.LENGTH_LONG).show()
+                toast = Toast.makeText(requireContext(), getString(R.string.generic_error), Toast.LENGTH_LONG)
+                toast?.show()
             }
         })
     }

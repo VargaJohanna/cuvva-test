@@ -8,13 +8,7 @@ class PaidPolicyRepositoryImpl(
 ) : PaidPolicyRepository {
 
     override fun getPolicyById(policyId: String): Observable<List<PaidPolicy>> {
-        val newList = mutableListOf<PaidPolicy>()
         return paidPolicyDao.getPoliciesById(policyId)
-            .map {
-                it.forEach {
-                    newList.add(it.toPaidPolicy())
-                }
-                newList
-            }
+            .map { list -> list.map { it.toPaidPolicy() } }
     }
 }

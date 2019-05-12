@@ -1,5 +1,7 @@
 package com.android.cuvvatest.model
 
+import org.threeten.bp.LocalDateTime
+
 data class PaidPolicy(
     val policyId: String,
     val timestamp: String,
@@ -12,5 +14,6 @@ data class PaidPolicy(
     val extraFees: Float,
     val vat: Float,
     val deductions: Float,
-    val totalPayable: Float
+    val totalPayable: Float,
+    val updated: LocalDateTime
 )

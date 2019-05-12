@@ -8,7 +8,7 @@ import com.android.cuvvatest.ext.plusAssign
 import com.android.cuvvatest.model.CreatedPolicy
 import com.android.cuvvatest.model.Policy
 import com.android.cuvvatest.network.NetworkRepository
-import com.android.cuvvatest.repositories.VehicleAndPoliciesRepository
+import com.android.cuvvatest.repositories.vehicle.VehicleAndPoliciesRepository
 import com.android.cuvvatest.repositories.policies.PolicyRepository
 import com.android.cuvvatest.rx.RxSchedulers
 import io.reactivex.disposables.CompositeDisposable

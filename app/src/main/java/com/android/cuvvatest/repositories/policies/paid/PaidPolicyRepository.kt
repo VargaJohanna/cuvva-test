@@ -5,5 +5,4 @@ import io.reactivex.Observable
 
 interface PaidPolicyRepository {
     fun getPolicyById(policyId: String): Observable<List<PaidPolicy>>
-
 }

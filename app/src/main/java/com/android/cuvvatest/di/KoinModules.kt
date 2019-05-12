@@ -1,24 +1,20 @@
 package com.android.cuvvatest.di
 
 import com.android.cuvvatest.Constants
+import com.android.cuvvatest.network.NetworkRepository
+import com.android.cuvvatest.network.NetworkRepositoryImpl
 import com.android.cuvvatest.network.PolicyDeserializer
 import com.android.cuvvatest.network.PolicyService
 import com.android.cuvvatest.network.entries.PolicyResponseList
-import com.android.cuvvatest.network.NetworkRepository
-import com.android.cuvvatest.network.NetworkRepositoryImpl
 import com.android.cuvvatest.repositories.PolicyDatabase
-import com.android.cuvvatest.repositories.VehicleAndPoliciesRepository
-import com.android.cuvvatest.repositories.VehicleAndPoliciesRepositoryImpl
 import com.android.cuvvatest.repositories.policies.PolicyRepository
 import com.android.cuvvatest.repositories.policies.PolicyRepositoryImpl
 import com.android.cuvvatest.repositories.policies.cancelled.CancelledPolicyRepository
 import com.android.cuvvatest.repositories.policies.cancelled.CancelledPolicyRepositoryImpl
-import com.android.cuvvatest.repositories.policies.created.CreatedPolicyRepository
-import com.android.cuvvatest.repositories.policies.created.CreatedPolicyRepositoryImpl
 import com.android.cuvvatest.repositories.policies.paid.PaidPolicyRepository
 import com.android.cuvvatest.repositories.policies.paid.PaidPolicyRepositoryImpl
-import com.android.cuvvatest.repositories.vehicle.VehicleRepository
-import com.android.cuvvatest.repositories.vehicle.VehicleRepositoryImpl
+import com.android.cuvvatest.repositories.vehicle.VehicleAndPoliciesRepository
+import com.android.cuvvatest.repositories.vehicle.VehicleAndPoliciesRepositoryImpl
 import com.android.cuvvatest.rx.RxSchedulers
 import com.android.cuvvatest.rx.RxSchedulersImpl
 import com.android.cuvvatest.ui.home.HomeViewModel
@@ -78,7 +74,6 @@ val repositoryModule = module {
     single { get<PolicyDatabase>().createdPolicyDao() }
     single { get<PolicyDatabase>().cancelledPolicyDao() }
     single { get<PolicyDatabase>().paidPolicyDao() }
-    single<VehicleRepository> { VehicleRepositoryImpl(get()) }
     single<NetworkRepository> {
         NetworkRepositoryImpl(
             get(),
@@ -88,8 +83,11 @@ val repositoryModule = module {
             get()
         )
     }
-    single<CreatedPolicyRepository> { CreatedPolicyRepositoryImpl(get(), get()) }
-    single<VehicleAndPoliciesRepository> { VehicleAndPoliciesRepositoryImpl(get()) }
+    single<VehicleAndPoliciesRepository> {
+        VehicleAndPoliciesRepositoryImpl(
+            get()
+        )
+    }
     single<CancelledPolicyRepository> { CancelledPolicyRepositoryImpl(get()) }
     single<PolicyRepository> { PolicyRepositoryImpl(get()) }
     single<PaidPolicyRepository> { PaidPolicyRepositoryImpl(get()) }

@@ -7,7 +7,7 @@ import com.android.cuvvatest.customException.CustomException
 import com.android.cuvvatest.ext.plusAssign
 import com.android.cuvvatest.model.VehicleAndPolicies
 import com.android.cuvvatest.network.NetworkRepository
-import com.android.cuvvatest.repositories.VehicleAndPoliciesRepository
+import com.android.cuvvatest.repositories.vehicle.VehicleAndPoliciesRepository
 import com.android.cuvvatest.rx.RxSchedulers
 import io.reactivex.disposables.CompositeDisposable
 
@@ -35,7 +35,7 @@ class HomeViewModel(
                     message.postValue("Data is successfully updated.")
                 },
                 {
-                    if(it is CustomException) {
+                    if (it is CustomException) {
                         message.postValue(it.errorMessage)
                     } else {
                         message.postValue(it.message)
@@ -48,8 +48,8 @@ class HomeViewModel(
             .subscribeOn(rxSchedulers.io())
             .map { list -> list.filter { it.hasActive } }
             .observeOn(rxSchedulers.main())
-            .subscribe{t ->
-                if(t.isNotEmpty()) {
+            .subscribe { t ->
+                if (t.isNotEmpty()) {
                     activeVehicleList.postValue(t)
                 } else {
                     message.postValue("Sorry, there's nothing to show.")
@@ -62,7 +62,7 @@ class HomeViewModel(
             .subscribeOn(rxSchedulers.io())
             .map { list -> list.filter { !it.hasActive } }
             .observeOn(rxSchedulers.main())
-            .subscribe{t -> vehicleList.postValue(t)}
+            .subscribe { t -> vehicleList.postValue(t) }
     }
 
     fun getActiveVehicleList(): LiveData<List<VehicleAndPolicies>> = activeVehicleList

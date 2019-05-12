@@ -4,6 +4,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.android.cuvvatest.model.PaidPolicy
+import org.threeten.bp.Instant
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.ZoneOffset
 
 @Entity(tableName = "paidPolicyTable")
 data class PaidPolicyEntity(
@@ -35,5 +38,7 @@ fun PaidPolicyEntity.toPaidPolicy() = PaidPolicy(
     extraFees = extraFees,
     vat = vat,
     deductions = deductions,
-    totalPayable = totalPayable
+    totalPayable = totalPayable,
+    updated = LocalDateTime.ofInstant(
+        Instant.ofEpochMilli(updated), ZoneOffset.UTC)
 )

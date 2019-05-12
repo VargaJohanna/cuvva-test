@@ -4,7 +4,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.android.cuvvatest.model.Vehicle
+import org.threeten.bp.Instant
 import org.threeten.bp.LocalDateTime
+import org.threeten.bp.ZoneOffset
 
 @Entity(tableName = "vehicleTable")
 data class VehicleEntity(
@@ -23,5 +25,6 @@ fun VehicleEntity.toVehicle() = Vehicle(
     make = make,
     model = model,
     color = color,
-    updated = LocalDateTime.now()
+    updated = LocalDateTime.ofInstant(
+        Instant.ofEpochMilli(updated), ZoneOffset.UTC)
 )

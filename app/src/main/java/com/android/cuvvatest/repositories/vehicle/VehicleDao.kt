@@ -10,7 +10,7 @@ interface VehicleDao {
 
     @Transaction
     @Query("SELECT vrm FROM vehicleTable")
-    fun loadVehicleAndEvents(): Observable<List<VehicleAndAllCreatedPolicies>>
+    fun loadVehicleAndEvents(): Observable<List<VehicleAndAllCreatedPolicyEntities>>
 
     @Query("DELETE FROM vehicleTable")
     fun deleteAll()

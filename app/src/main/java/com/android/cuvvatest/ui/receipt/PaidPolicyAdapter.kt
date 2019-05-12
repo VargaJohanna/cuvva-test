@@ -33,8 +33,6 @@ class PaidPolicyAdapter(
     inner class PaidPolicyViewHolder(itemView: View) :RecyclerView.ViewHolder(itemView) {
         fun bind(policy: PaidPolicy) {
             itemView.apply {
-                //2019-01-18T10:15:32.250Z
-                //2019-01-18 10:15:32.250Z
                 val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS'Z'", Locale.UK)
                 val date = LocalDateTime.parse(policy.timestamp.replace("T", " "), formatter)
                 val englishDateTime = date.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM).withLocale(Locale.UK))

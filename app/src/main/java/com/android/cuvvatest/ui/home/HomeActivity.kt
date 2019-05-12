@@ -7,9 +7,15 @@ import org.koin.androidx.viewmodel.ext.viewModel
 
 
 class HomeActivity : AppCompatActivity() {
+    private val homeViewModel: HomeViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        homeViewModel.fetchDataFromNetwork()
     }
 }

@@ -8,18 +8,14 @@ Each view is a single activity and represented by fragments.
 
 
 The navigation between fragments is managed by the **Navigation Component**.
-Below the view layer, I'm using **RxJava** to asynchronously retrieve the data from the network. I subscribe to this data in **ViewModel** of the relevant Fragment and transfer it into lifecycle aware data (LiveData).
+Below the view layer, I'm using **RxJava** to asynchronously retrieve the data from the network when the app is launched and save it to the local database via **Room**. I subscribe to the saved data in each **ViewModel** of the relevant Fragment and transfer it into lifecycle aware data (LiveData).
 The fragment will observe these LiveDatas and react to the changes.
 
 
-The data is retrieved from the network via **Retrofit** once when the user opens the app and then it's saved to the local database with the help of **Room** library.
-Every screen can be refreshed by swiping down. This will trigger the *fetchData()* method that will delete the existing data in the database and updated it with the latest response.
+Every screen can be refreshed by swiping down. This will trigger the *fetchData()* method that will delete the existing data in the database and updated it with the latest response from the network.
 
 
 All the exceptions are displayed as Toast messages.
-
-
-On every screen, it's possible to swipe the screen and refresh, so the user is able to retry in case the product details didn't come through.
 
 
 ### Data structure:

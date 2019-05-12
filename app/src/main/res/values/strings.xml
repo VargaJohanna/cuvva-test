@@ -24,8 +24,11 @@
     <string name="create_new_policy">Create new policy</string>
     <string name="receipt_voided_message">This policy has been voided</string>
     <string name="receipt_insurance_premium">Insurance premium</string>
+    <string name="receipt_value_positive">£%1$s</string>
+    <string name="receipt_value_negative">-£%1$s</string>
     <string name="receipt_insurance_premium_tax">Insurance premium tax</string>
     <string name="receipt_admin_fee">Admin fee</string>
     <string name="receipt_total_paid">Total paid</string>
     <string name="receipt_grand_total">Grand total</string>
+    <string name="two_decimal_format">%.2f</string>
 </resources>

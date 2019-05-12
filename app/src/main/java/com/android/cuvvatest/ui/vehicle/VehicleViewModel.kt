@@ -55,4 +55,8 @@ class VehicleViewModel(
 
     fun getNumberOfTotalPolicies(): LiveData<Int> = numberOfPolicies
     fun getLivePolicies(): LiveData<List<Policy>> = previousPolicies
+
+    override fun onCleared() {
+        disposables.clear()
+    }
 }

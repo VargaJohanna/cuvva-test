@@ -38,7 +38,10 @@ class VehicleFragment : Fragment(), PreviousPolicyAdapter.PreviousPolicyClickLis
     }
 
     override fun onItemClick(policy: Policy) {
-
+        val action = VehicleFragmentDirections.fromVehicleToReceipt(
+            policy.createdPolicy.policyId,
+            policy.cancelled)
+        findNavController().navigate(action)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

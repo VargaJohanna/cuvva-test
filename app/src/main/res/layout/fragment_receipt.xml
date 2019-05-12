@@ -4,7 +4,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/swipe_refresh"
         android:layout_height="match_parent"
-        android:layout_width="wrap_content">
+        android:layout_width="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -26,17 +26,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
-        <TextView
-                android:id="@+id/timestamp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:padding="@dimen/padding_normal"
-                tools:text="4th Feb 2019 at 12:04"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/voided_policy"/>
-
 
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/receipt_recycler_view"
@@ -44,7 +33,7 @@
                 android:layout_marginBottom="@dimen/margin_normal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/timestamp"
+                app:layout_constraintTop_toBottomOf="@+id/voided_policy"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -52,10 +41,11 @@
                 android:id="@+id/grand_total_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:layout_marginBottom="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginBottom="@dimen/margin_large"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/receipt_recycler_view">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -76,7 +66,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"/>
 
                 <TextView
-                        android:id="@+id/total_paid_value"
+                        android:id="@+id/grand_total_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/padding_normal"

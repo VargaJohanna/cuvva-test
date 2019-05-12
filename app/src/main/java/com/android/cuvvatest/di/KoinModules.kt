@@ -15,11 +15,14 @@ import com.android.cuvvatest.repositories.policies.cancelled.CancelledPolicyRepo
 import com.android.cuvvatest.repositories.policies.cancelled.CancelledPolicyRepositoryImpl
 import com.android.cuvvatest.repositories.policies.created.CreatedPolicyRepository
 import com.android.cuvvatest.repositories.policies.created.CreatedPolicyRepositoryImpl
+import com.android.cuvvatest.repositories.policies.paid.PaidPolicyRepository
+import com.android.cuvvatest.repositories.policies.paid.PaidPolicyRepositoryImpl
 import com.android.cuvvatest.repositories.vehicle.VehicleRepository
 import com.android.cuvvatest.repositories.vehicle.VehicleRepositoryImpl
 import com.android.cuvvatest.rx.RxSchedulers
 import com.android.cuvvatest.rx.RxSchedulersImpl
 import com.android.cuvvatest.ui.home.HomeViewModel
+import com.android.cuvvatest.ui.receipt.ReceiptViewModel
 import com.android.cuvvatest.ui.vehicle.VehicleViewModel
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -66,6 +69,7 @@ val schedulerModule = module {
 val viewModelModule = module {
     viewModel { HomeViewModel(get(), get()) }
     viewModel { (vrm: String) -> VehicleViewModel(vrm, get(), get(), get()) }
+    viewModel { (policyId: String) -> ReceiptViewModel(policyId, get(), get()) }
 }
 
 val repositoryModule = module {
@@ -88,4 +92,5 @@ val repositoryModule = module {
     single<VehicleAndPoliciesRepository> { VehicleAndPoliciesRepositoryImpl(get()) }
     single<CancelledPolicyRepository> { CancelledPolicyRepositoryImpl(get()) }
     single<PolicyRepository> { PolicyRepositoryImpl(get()) }
+    single<PaidPolicyRepository> { PaidPolicyRepositoryImpl(get()) }
 }

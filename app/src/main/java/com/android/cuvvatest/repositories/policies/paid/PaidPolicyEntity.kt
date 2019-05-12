@@ -3,6 +3,7 @@ package com.android.cuvvatest.repositories.policies.paid
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.android.cuvvatest.model.PaidPolicy
 
 @Entity(tableName = "paidPolicyTable")
 data class PaidPolicyEntity(
@@ -20,4 +21,19 @@ data class PaidPolicyEntity(
     @ColumnInfo(name = "deductions") val deductions: Float,
     @ColumnInfo(name = "total_payable") val totalPayable: Float,
     @ColumnInfo(name = "updated") val updated: Long
+)
+
+fun PaidPolicyEntity.toPaidPolicy() = PaidPolicy(
+    policyId = policyId,
+    timestamp = timestamp,
+    uniqueKey = uniqueKey,
+    underwriterPremium = underwriterPremium,
+    commission = commission,
+    totalPremium = totalPremium,
+    ipt = ipt,
+    iptRate = iptRate,
+    extraFees = extraFees,
+    vat = vat,
+    deductions = deductions,
+    totalPayable = totalPayable
 )

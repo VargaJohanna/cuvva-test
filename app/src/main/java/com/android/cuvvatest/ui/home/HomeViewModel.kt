@@ -40,6 +40,7 @@ class HomeViewModel(
 
     fun getActiveVehicleList(): LiveData<List<VehicleAndPolicies>> = activeVehicleList
     fun getVehicleList(): LiveData<List<VehicleAndPolicies>> = vehicleList
+
     override fun onCleared() {
         disposables.clear()
         super.onCleared()

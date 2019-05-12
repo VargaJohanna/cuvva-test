@@ -3,6 +3,7 @@ package com.android.cuvvatest.ui.home
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.android.cuvvatest.R
 import com.android.cuvvatest.ext.toCarLogo
@@ -49,8 +50,9 @@ class ActivePolicyAdapter(
     }
 
     fun updateList(newList: List<VehicleAndPolicies>) {
-        activeVehicles = newList
-        notifyDataSetChanged()
+        val diffResult = DiffUtil.calculateDiff(VehicleAndPolicyDiffUtilCallback(activeVehicles, newList))
+        this.activeVehicles = newList
+        diffResult.dispatchUpdatesTo(this)
     }
 
     interface ItemClickListener {

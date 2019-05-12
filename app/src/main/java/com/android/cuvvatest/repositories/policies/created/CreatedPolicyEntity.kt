@@ -40,8 +40,7 @@ fun CreatedPolicyEntity.toCreatedPolicy(): CreatedPolicy {
         startDate = startDateLocal,
         endDate = endDateLocal,
         extensionPolicy = policyId != originalPolicyId,
-        updated = LocalDateTime.ofInstant(
-            Instant.ofEpochMilli(updated), ZoneOffset.UTC),
+        updated = LocalDateTime.ofInstant(Instant.ofEpochMilli(updated), ZoneOffset.UTC),
         active = Constants.CURRENT_DATE < endDateLocal && Constants.CURRENT_DATE > startDateLocal
     )
 }

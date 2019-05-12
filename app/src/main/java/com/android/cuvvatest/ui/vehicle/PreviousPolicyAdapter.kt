@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.android.cuvvatest.R
 import com.android.cuvvatest.model.Policy
@@ -42,7 +43,12 @@ class PreviousPolicyAdapter(
                             ChronoUnit.MINUTES
                         ).toString()
                     )
-                    previous_duration.setTextColor(ContextCompat.getColor(itemView.context, R.color.abc_primary_text_material_light))
+                    previous_duration.setTextColor(
+                        ContextCompat.getColor(
+                            itemView.context,
+                            R.color.abc_primary_text_material_light
+                        )
+                    )
 
                 }
                 val date = policy.createdPolicy.startDate
@@ -60,9 +66,10 @@ class PreviousPolicyAdapter(
         }
     }
 
-    fun updateList(list: List<Policy>) {
-        policyList = list
-        notifyDataSetChanged()
+    fun updateList(newList: List<Policy>) {
+        val diffResult = DiffUtil.calculateDiff(PreviousPolicyDiffUtilCallback(policyList, newList))
+        this.policyList = newList
+        diffResult.dispatchUpdatesTo(this)
     }
 
     interface PreviousPolicyClickListener {

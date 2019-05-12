@@ -39,6 +39,5 @@ fun PaidPolicyEntity.toPaidPolicy() = PaidPolicy(
     vat = vat,
     deductions = deductions,
     totalPayable = totalPayable,
-    updated = LocalDateTime.ofInstant(
-        Instant.ofEpochMilli(updated), ZoneOffset.UTC)
+    updated = LocalDateTime.ofInstant(Instant.ofEpochMilli(updated), ZoneOffset.UTC)
 )

@@ -35,10 +35,10 @@ class PaidPolicyAdapter(
             itemView.apply {
                 //2019-01-18T10:15:32.250Z
                 //2019-01-18 10:15:32.250Z
-                val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSXX")
+                val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS'Z'", Locale.UK)
                 val date = LocalDateTime.parse(policy.timestamp.replace("T", " "), formatter)
-//                val englishDateTime = date.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).withLocale(Locale.UK))
-                timestamp.text = date.toString()
+                val englishDateTime = date.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM).withLocale(Locale.UK))
+                timestamp.text = englishDateTime
                 setValues(insurance_premium_value, policy.totalPremium)
                 setValues(insurance_premium_tax_value, policy.ipt)
                 setValues(admin_fee_value, policy.extraFees)

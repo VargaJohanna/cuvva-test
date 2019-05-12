@@ -25,6 +25,10 @@ class NetworkRepositoryImpl(
     private val cancelledPolicyDao: CancelledPolicyDao,
     private val createdPolicyDao: CreatedPolicyDao,
     private val paidPolicyDao: PaidPolicyDao
+    /**
+     * This is where the data returned from the network gets inserted to the database.
+     * To avoid duplications and always up to date data, the database is cleared first.
+     */
 ) : NetworkRepository {
     private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 

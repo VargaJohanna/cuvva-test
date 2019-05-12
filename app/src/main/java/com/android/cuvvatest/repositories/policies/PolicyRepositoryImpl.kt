@@ -6,6 +6,10 @@ import com.android.cuvvatest.repositories.policies.cancelled.CancelledPolicyDao
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
 
+/**
+ * Return a list of Policy model object based on a list of CreatedPolicy.
+ * The difference is that the Policy object will know if the created policy has been cancelled or not.
+ */
 class PolicyRepositoryImpl(
     private val cancelledPolicyDao: CancelledPolicyDao
 ) : PolicyRepository {

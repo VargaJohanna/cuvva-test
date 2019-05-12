@@ -19,5 +19,6 @@
     <dimen name="card_corner_radius">12dp</dimen>
     <dimen name="card_elevation">3dp</dimen>
     <dimen name="app_bar_icon_size">40dp</dimen>
+    <dimen name="vehicle_icon_size">45dp</dimen>
 
 </resources>

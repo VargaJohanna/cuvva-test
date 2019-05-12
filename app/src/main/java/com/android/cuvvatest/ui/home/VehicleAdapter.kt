@@ -32,7 +32,6 @@ class VehicleAdapter(
                 color.text = dataObject.vehicle.color
                 model.text = dataObject.vehicle.model
                 reg_plate.text = dataObject.vehicle.prettyVrm
-                //Is it too much calculation here?
                 total_policies.text = dataObject.createdPolicyList.filter { !it.extensionPolicy }.size.toString()
                 vehicle_logo.toCarLogo(dataObject.vehicle.make)
             }

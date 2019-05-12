@@ -104,9 +104,6 @@ dependencies {
     implementation "org.koin:koin-androidx-scope:$koin_core_version"
     implementation "org.koin:koin-androidx-viewmodel:$koin_core_version"
 
-    //Lottie animation
-    implementation "com.airbnb.android:lottie:$lottie_version"
-
     //Mockito
     testImplementation "org.mockito:mockito-core:$mockito_core_version"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_kotlin_version"

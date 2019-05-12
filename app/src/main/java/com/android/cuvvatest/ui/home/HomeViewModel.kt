@@ -5,13 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.android.cuvvatest.ext.plusAssign
 import com.android.cuvvatest.model.VehicleAndPolicies
+import com.android.cuvvatest.network.NetworkRepository
 import com.android.cuvvatest.repositories.VehicleAndPoliciesRepository
 import com.android.cuvvatest.rx.RxSchedulers
 import io.reactivex.disposables.CompositeDisposable
 
 class HomeViewModel(
     private val rxSchedulers: RxSchedulers,
-    private val vehicleAndPoliciesRepository: VehicleAndPoliciesRepository
+    private val vehicleAndPoliciesRepository: VehicleAndPoliciesRepository,
+    private val networkRepository: NetworkRepository
 ) : ViewModel() {
     private val disposables = CompositeDisposable()
     private val activeVehicleList: MutableLiveData<List<VehicleAndPolicies>> = MutableLiveData()
@@ -20,6 +22,13 @@ class HomeViewModel(
     init {
         getActiveVehicleData()
         getVehicleData()
+    }
+
+    fun fetchDataFromNetwork() {
+        disposables += networkRepository.fetchData()
+            .subscribeOn(rxSchedulers.io())
+            .observeOn(rxSchedulers.main())
+            .subscribe()
     }
 
     private fun getActiveVehicleData() {

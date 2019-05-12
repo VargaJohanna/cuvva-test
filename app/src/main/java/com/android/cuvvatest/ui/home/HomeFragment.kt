@@ -8,25 +8,17 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.cuvvatest.R
-import com.android.cuvvatest.ext.plusAssign
 import com.android.cuvvatest.ext.show
 import com.android.cuvvatest.model.VehicleAndPolicies
-import com.android.cuvvatest.network.NetworkRepository
-import com.android.cuvvatest.rx.RxSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_home.view.*
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.viewModel
-import androidx.navigation.fragment.findNavController
 
 class HomeFragment : Fragment(), ActivePolicyAdapter.ItemClickListener, VehicleAdapter.VehicleItemClickListener {
     private val homeViewModel: HomeViewModel by viewModel()
-    private val networkRepository: NetworkRepository by inject()
-    private val rxSchedulers: RxSchedulers by inject()
-    private val disposables = CompositeDisposable()
 
     override fun onItemClick(dataObject: VehicleAndPolicies) {
         val action = HomeFragmentDirections.fromHomeToVehicle(
@@ -47,6 +39,7 @@ class HomeFragment : Fragment(), ActivePolicyAdapter.ItemClickListener, VehicleA
             observeVehicleList(vehicleAdapter, progress_bar)
             swipe_refresh.setOnRefreshListener {
                 //Refresh data here
+                homeViewModel.fetchDataFromNetwork()
                 Handler().postDelayed({ swipe_refresh.isRefreshing = false }, 1000)
             }
         }
@@ -54,10 +47,7 @@ class HomeFragment : Fragment(), ActivePolicyAdapter.ItemClickListener, VehicleA
 
     override fun onResume() {
         super.onResume()
-        disposables += networkRepository.fetchData()
-            .subscribeOn(rxSchedulers.io())
-            .observeOn(rxSchedulers.main())
-            .subscribe()
+        homeViewModel.fetchDataFromNetwork()
     }
 
     private fun observeVehicleList(vehicleAdapter: VehicleAdapter, progressBar: ProgressBar) {

@@ -67,9 +67,9 @@ val schedulerModule = module {
 }
 
 val viewModelModule = module {
-    viewModel { HomeViewModel(get(), get()) }
-    viewModel { (vrm: String) -> VehicleViewModel(vrm, get(), get(), get()) }
-    viewModel { (policyId: String) -> ReceiptViewModel(policyId, get(), get()) }
+    viewModel { HomeViewModel(get(), get(), get()) }
+    viewModel { (vrm: String) -> VehicleViewModel(vrm, get(), get(), get(), get()) }
+    viewModel { (policyId: String) -> ReceiptViewModel(policyId, get(), get(), get()) }
 }
 
 val repositoryModule = module {

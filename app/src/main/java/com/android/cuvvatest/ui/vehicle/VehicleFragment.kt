@@ -54,6 +54,7 @@ class VehicleFragment : Fragment(), PreviousPolicyAdapter.PreviousPolicyClickLis
             setActivePolicy(policy_card, no_active_policy, vehicle_active_policy, cover_button)
             swipe_refresh.setOnRefreshListener {
                 //Refresh data here
+                vehicleViewModel.fetchDataFromNetwork()
                 Handler().postDelayed({ swipe_refresh.isRefreshing = false }, 1000)
             }
             closeButton(close_button)

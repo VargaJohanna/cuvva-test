@@ -37,6 +37,7 @@ class ReceiptFragment : Fragment() {
             observeList(adapter, progress_bar, grand_total_value)
             swipe_refresh.setOnRefreshListener {
                 //Refresh data here
+                receiptViewModel.fetchDataFromNetwork()
                 Handler().postDelayed({ swipe_refresh.isRefreshing = false }, 1000)
             }
         }

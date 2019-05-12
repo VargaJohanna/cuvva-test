@@ -44,7 +44,9 @@ class ActivePolicyAdapter(
 
         init {
             itemView.setOnClickListener {
-                itemClickListener.onItemClick(activeVehicles[layoutPosition])
+                if(layoutPosition >= 0) {
+                    itemClickListener.onItemClick(activeVehicles[layoutPosition])
+                }
             }
         }
     }

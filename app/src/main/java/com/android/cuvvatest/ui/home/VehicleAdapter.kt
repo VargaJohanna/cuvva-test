@@ -39,7 +39,9 @@ class VehicleAdapter(
 
         init {
             itemView.setOnClickListener {
-                itemClickListener.onItemClick(vehicles[layoutPosition])
+                if(layoutPosition >= 0) {
+                    itemClickListener.onItemClick(vehicles[layoutPosition])
+                }
             }
         }
     }

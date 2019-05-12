@@ -61,7 +61,9 @@ class PreviousPolicyAdapter(
 
         init {
             itemView.setOnClickListener {
-                itemClickListener.onItemClick(policyList[layoutPosition])
+                if(layoutPosition >= 0) {
+                    itemClickListener.onItemClick(policyList[layoutPosition])
+                }
             }
         }
     }

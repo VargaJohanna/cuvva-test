@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -32,6 +33,7 @@ class HomeFragment : Fragment(), ActivePolicyAdapter.ItemClickListener, VehicleA
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val activeAdapter = ActivePolicyAdapter(ArrayList(), this)
         val vehicleAdapter = VehicleAdapter(ArrayList(), this)
+        showErrorMessage()
         return inflater.inflate(R.layout.fragment_home, container, false).apply {
             generateActiveList(activeAdapter, active_policy_recycler_view)
             observeActiveList(activeAdapter, progress_bar)
@@ -78,5 +80,18 @@ class HomeFragment : Fragment(), ActivePolicyAdapter.ItemClickListener, VehicleA
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             adapter = activeAdapter
         }
+    }
+
+    /**
+     * Observe the error getMessage and show the returned text in a toast
+     */
+    private fun showErrorMessage() {
+        homeViewModel.getMessage().observe(this, Observer {
+            if(!it.isNullOrEmpty()) {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(requireContext(), getString(R.string.generic_error), Toast.LENGTH_LONG).show()
+            }
+        })
     }
 }

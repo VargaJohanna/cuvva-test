@@ -3,6 +3,7 @@ package com.android.cuvvatest.ui.receipt
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.android.cuvvatest.customException.CustomException
 import com.android.cuvvatest.ext.plusAssign
 import com.android.cuvvatest.model.PaidPolicy
 import com.android.cuvvatest.network.NetworkRepository
@@ -19,6 +20,7 @@ class ReceiptViewModel(
 ) : ViewModel() {
     private val disposables = CompositeDisposable()
     private val paidPolicyList: MutableLiveData<List<PaidPolicy>> = MutableLiveData()
+    private val message: MutableLiveData<String> = MutableLiveData()
 
     init {
         getPaidPolicies()
@@ -28,7 +30,18 @@ class ReceiptViewModel(
         disposables += networkRepository.fetchData()
             .subscribeOn(rxSchedulers.io())
             .observeOn(rxSchedulers.main())
-            .subscribe()
+            .subscribe(
+                {
+                    message.postValue("Data is successfully updated.")
+                },
+                {
+                    if(it is CustomException) {
+                        message.postValue(it.errorMessage)
+                    } else {
+                        message.postValue(it.message)
+                    }
+                }
+            )
     }
 
     private fun getPaidPolicies() {
@@ -39,6 +52,7 @@ class ReceiptViewModel(
     }
 
     fun getLivePaidPolicy(): LiveData<List<PaidPolicy>> = paidPolicyList
+    fun getMessage(): LiveData<String> = message
 
     override fun onCleared() {
         disposables.clear()

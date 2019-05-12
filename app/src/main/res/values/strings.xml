@@ -31,4 +31,6 @@
     <string name="receipt_total_paid">Total paid</string>
     <string name="receipt_grand_total">Grand total</string>
     <string name="two_decimal_format">%.2f</string>
+    <string name="generic_error">Something went wrong. Please try again.</string>
+    <string name="refreshed_data_message">Data is refreshed.</string>
 </resources>

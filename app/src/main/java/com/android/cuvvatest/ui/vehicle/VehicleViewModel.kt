@@ -3,6 +3,7 @@ package com.android.cuvvatest.ui.vehicle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.android.cuvvatest.customException.CustomException
 import com.android.cuvvatest.ext.plusAssign
 import com.android.cuvvatest.model.CreatedPolicy
 import com.android.cuvvatest.model.Policy
@@ -26,6 +27,7 @@ class VehicleViewModel(
     private val _createdPolicies = BehaviorSubject.create<List<CreatedPolicy>>()
     private val createdPolicies = _createdPolicies
     private val numberOfPolicies: MutableLiveData<Int> = MutableLiveData()
+    private val message: MutableLiveData<String> = MutableLiveData()
 
     init {
         getCreatedPolicies()
@@ -36,7 +38,18 @@ class VehicleViewModel(
         disposables += networkRepository.fetchData()
             .subscribeOn(rxSchedulers.io())
             .observeOn(rxSchedulers.main())
-            .subscribe()
+            .subscribe(
+                {
+                    message.postValue("Data is successfully updated.")
+                },
+                {
+                    if(it is CustomException) {
+                        message.postValue(it.errorMessage)
+                    } else {
+                        message.postValue(it.message)
+                    }
+                }
+            )
     }
 
     private fun getCreatedPolicies() {
@@ -65,6 +78,7 @@ class VehicleViewModel(
 
     fun getNumberOfTotalPolicies(): LiveData<Int> = numberOfPolicies
     fun getLivePolicies(): LiveData<List<Policy>> = previousPolicies
+    fun getMessage(): LiveData<String> = message
 
     override fun onCleared() {
         disposables.clear()

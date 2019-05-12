@@ -3,6 +3,7 @@ package com.android.cuvvatest.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.android.cuvvatest.customException.CustomException
 import com.android.cuvvatest.ext.plusAssign
 import com.android.cuvvatest.model.VehicleAndPolicies
 import com.android.cuvvatest.network.NetworkRepository
@@ -18,6 +19,7 @@ class HomeViewModel(
     private val disposables = CompositeDisposable()
     private val activeVehicleList: MutableLiveData<List<VehicleAndPolicies>> = MutableLiveData()
     private val vehicleList: MutableLiveData<List<VehicleAndPolicies>> = MutableLiveData()
+    private val message: MutableLiveData<String> = MutableLiveData()
 
     init {
         getActiveVehicleData()
@@ -28,7 +30,17 @@ class HomeViewModel(
         disposables += networkRepository.fetchData()
             .subscribeOn(rxSchedulers.io())
             .observeOn(rxSchedulers.main())
-            .subscribe()
+            .subscribe(
+                {
+                    message.postValue("Data is successfully updated.")
+                },
+                {
+                    if(it is CustomException) {
+                        message.postValue(it.errorMessage)
+                    } else {
+                        message.postValue(it.message)
+                    }
+                })
     }
 
     private fun getActiveVehicleData() {
@@ -49,6 +61,7 @@ class HomeViewModel(
 
     fun getActiveVehicleList(): LiveData<List<VehicleAndPolicies>> = activeVehicleList
     fun getVehicleList(): LiveData<List<VehicleAndPolicies>> = vehicleList
+    fun getMessage(): LiveData<String> = message
 
     override fun onCleared() {
         disposables.clear()

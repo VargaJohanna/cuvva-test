@@ -5,10 +5,7 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -46,6 +43,7 @@ class VehicleFragment : Fragment(), PreviousPolicyAdapter.PreviousPolicyClickLis
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val previousPolicyAdapter = PreviousPolicyAdapter(ArrayList(), this)
+        showErrorMessage()
         return inflater.inflate(R.layout.fragment_vehicle, container, false).apply {
             vehicle_make.text = args.make
             vehicle_model.text = args.model
@@ -115,6 +113,19 @@ class VehicleFragment : Fragment(), PreviousPolicyAdapter.PreviousPolicyClickLis
     private fun setTotalPolicies(vehicleTotalPolicies: TextView) {
         vehicleViewModel.getNumberOfTotalPolicies().observe(requireActivity(), Observer {
             vehicleTotalPolicies.text = it.toString()
+        })
+    }
+
+    /**
+     * Observe the error getMessage and show the returned text in a toast
+     */
+    private fun showErrorMessage() {
+        vehicleViewModel.getMessage().observe(this, Observer {
+            if(!it.isNullOrEmpty()) {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(requireContext(), getString(R.string.generic_error), Toast.LENGTH_LONG).show()
+            }
         })
     }
 }

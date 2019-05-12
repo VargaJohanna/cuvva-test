@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
@@ -29,6 +30,7 @@ class ReceiptFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val adapter = PaidPolicyAdapter(ArrayList())
+        showErrorMessage()
         return inflater.inflate(R.layout.fragment_receipt, container, false).apply {
             if(args.cancelled) {
                 voided_policy.show(true)
@@ -75,5 +77,18 @@ class ReceiptFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             adapter = policyAdapter
         }
+    }
+
+    /**
+     * Observe the error getMessage and show the returned text in a toast
+     */
+    private fun showErrorMessage() {
+        receiptViewModel.getMessage().observe(this, Observer {
+            if(!it.isNullOrEmpty()) {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(requireContext(), getString(R.string.generic_error), Toast.LENGTH_LONG).show()
+            }
+        })
     }
 }
